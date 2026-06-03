@@ -1,16 +1,16 @@
-FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 COPY src/ .
 
-RUN dotnet workload install wasm-tools && \
-    dotnet restore FlightRadar.UI.Web/FlightRadar.UI.Web.csproj && \
-    dotnet publish FlightRadar.UI.Web/FlightRadar.UI.Web.csproj -c Release -o /wasm --no-restore
+RUN dotnet workload install wasm-tools
+RUN dotnet restore FlightRadar.UI.Web/FlightRadar.UI.Web.csproj
+RUN dotnet publish FlightRadar.UI.Web/FlightRadar.UI.Web.csproj -c Release -o /wasm --no-restore
 
 RUN mkdir -p FlightRadar.Server/wwwroot && \
     cp -r /wasm/wwwroot/* FlightRadar.Server/wwwroot/
 
-RUN dotnet restore FlightRadar.Server/FlightRadar.Server.csproj && \
-    dotnet publish FlightRadar.Server/FlightRadar.Server.csproj -c Release -o /app --no-restore
+RUN dotnet restore FlightRadar.Server/FlightRadar.Server.csproj
+RUN dotnet publish FlightRadar.Server/FlightRadar.Server.csproj -c Release -o /app --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 WORKDIR /app
