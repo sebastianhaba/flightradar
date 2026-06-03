@@ -2,7 +2,8 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 COPY src/ .
 
-RUN dotnet workload install wasm-tools
+RUN apt-get update && apt-get install -y python3 && \
+    dotnet workload install wasm-tools
 RUN dotnet restore FlightRadar.UI.Web/FlightRadar.UI.Web.csproj
 RUN dotnet publish FlightRadar.UI.Web/FlightRadar.UI.Web.csproj -c Release -o /wasm --no-restore
 
