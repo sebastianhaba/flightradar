@@ -22,8 +22,6 @@ app.UseStaticFiles(staticOptions);
 app.UseWebSockets();
 app.MapHub<RadarHub>("/hubs/radar");
 
-app.MapGet("/api/radar", (AdsbPoller poller) => Results.Ok(poller.LatestState));
-
 app.MapFallbackToFile("index.html");
 
 app.Run();
