@@ -7,14 +7,9 @@ RUN apt-get update && apt-get install -y python3 && \
 RUN dotnet restore FlightRadar.UI.Web/FlightRadar.UI.Web.csproj
 RUN dotnet publish FlightRadar.UI.Web/FlightRadar.UI.Web.csproj -c Release -o /wasm --no-restore
 
-RUN mkdir -p FlightRadar.Server/wwwroot
-RUN if [ -d /wasm/wwwroot ]; then \
-        cp -r /wasm/wwwroot/* FlightRadar.Server/wwwroot/; \
-    else \
-        cp -r /wasm/_framework FlightRadar.Server/wwwroot/ 2>/dev/null; \
-        cp /wasm/*.js /wasm/*.html /wasm/*.css /wasm/*.ico /wasm/*.svg /wasm/*.json FlightRadar.Server/wwwroot/ 2>/dev/null; \
-        cp /wasm/*.dat /wasm/*.wasm /wasm/*.pdb FlightRadar.Server/wwwroot/ 2>/dev/null; \
-    fi
+RUN mkdir -p FlightRadar.Server/wwwroot && \
+    cp -r /wasm/wwwroot/* FlightRadar.Server/wwwroot/ || \
+    cp -r /src/FlightRadar.UI.Web/bin/Release/net10.0/browser-wasm/AppBundle/* FlightRadar.Server/wwwroot/
 
 RUN dotnet restore FlightRadar.Server/FlightRadar.Server.csproj
 RUN dotnet publish FlightRadar.Server/FlightRadar.Server.csproj -c Release -o /app --no-restore
@@ -23,7 +18,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 WORKDIR /app
 COPY --from=build /app .
 EXPOSE 8080
-ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_URLS=http://0.0.0.0:8080
 ENV RADAR_LAT=52.2297
 ENV RADAR_LON=21.0122
 ENV POLL_INTERVAL_SECONDS=5
