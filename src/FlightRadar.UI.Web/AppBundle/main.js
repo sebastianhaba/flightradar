@@ -3,6 +3,10 @@
 const dotnetRuntime = await dotnet
     .withDiagnosticTracing(false)
     .withApplicationArgumentsFromQuery()
-    .create();
+    .create({
+        environmentVariables: {
+            HUB_URL: `${globalThis.location.origin}/hubs/radar`
+        }
+    });
 
 await dotnetRuntime.runMain();
