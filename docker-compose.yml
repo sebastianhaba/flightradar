@@ -1,0 +1,12 @@
+services:
+  flightradar:
+    build: .
+    container_name: flightradar
+    ports:
+      - "8080:8080"
+    environment:
+      - RADAR_LAT=52.2297
+      - RADAR_LON=21.0122
+      - POLL_INTERVAL_SECONDS=5
+      - RADAR_RANGE_KM=25
+    restart: unless-stopped

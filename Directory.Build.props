@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <AvVer>11.3.17</AvVer>
+  </PropertyGroup>
+</Project>

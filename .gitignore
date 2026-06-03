@@ -1,0 +1,18 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.vs/
+.vscode/
+
+## IDE
+.idea/
+*.sln.DotSettings
+
+## Build artifacts
+wwwroot/
+
+## OS
+.DS_Store
+Thumbs.db

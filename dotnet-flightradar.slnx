@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FlightRadar.Server/FlightRadar.Server.csproj" />
+    <Project Path="src/FlightRadar.Shared/FlightRadar.Shared.csproj" />
+    <Project Path="src/FlightRadar.UI/FlightRadar.UI.csproj" />
+    <Project Path="src/FlightRadar.UI.Desktop/FlightRadar.UI.Desktop.csproj" />
+    <Project Path="src/FlightRadar.UI.Web/FlightRadar.UI.Web.csproj" />
+  </Folder>
+</Solution>
+

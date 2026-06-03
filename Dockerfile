@@ -1,0 +1,23 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
+WORKDIR /src
+COPY src/ .
+
+RUN dotnet restore FlightRadar.UI.Web/FlightRadar.UI.Web.csproj && \
+    dotnet publish FlightRadar.UI.Web/FlightRadar.UI.Web.csproj -c Release -o /wasm --no-restore
+
+RUN mkdir -p FlightRadar.Server/wwwroot && \
+    cp -r /wasm/wwwroot/* FlightRadar.Server/wwwroot/
+
+RUN dotnet restore FlightRadar.Server/FlightRadar.Server.csproj && \
+    dotnet publish FlightRadar.Server/FlightRadar.Server.csproj -c Release -o /app --no-restore
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
+WORKDIR /app
+COPY --from=build /app .
+EXPOSE 8080
+ENV RADAR_LAT=52.2297
+ENV RADAR_LON=21.0122
+ENV POLL_INTERVAL_SECONDS=5
+ENV RADAR_RANGE_KM=25
+ENV ADSB_API_BASE_URL=https://opendata.adsb.fi/api/v3
+ENTRYPOINT ["dotnet", "FlightRadar.Server.dll"]

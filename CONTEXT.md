@@ -1,0 +1,58 @@
+# FlightRadar
+
+Webowa aplikacja radaru lotniczego pokazująca na żywo statki powietrzne w okolicy punktu domowego. Okrągły radar z koncentrycznymi pierścieniami co 5 km, maksymalny zasięg 25 km. Dane pobierane z publicznego API ADS-B (adsb.fi).
+
+## Language
+
+**Radar**:
+Okrągły widok z koncentrycznymi pierścieniami odległości i oznaczeniami kierunków świata, na którym wyświetlane są pozycje statków powietrznych.
+_Avoid_: radar screen, scope
+
+**Aircraft**:
+Pojedynczy statek powietrzny wykryty w zasięgu radaru. Reprezentowany przez ikonę obróconą zgodnie z headingiem, z callsignem i altitude.
+_Avoid_: plane, flight, target (chyba że w kontekście ESP32)
+
+**Home Point**:
+Środek radaru — współrzędne geograficzne (lat/lon) ustawiane przez użytkownika jako punkt odniesienia.
+_Avoid_: origin, center, station
+
+**Ring**:
+Jeden z koncentrycznych okręgów na radarze oznaczających odległość od Home Point. Standardowo co 5 km, do 25 km.
+_Avoid_: circle, band, range marker
+
+**Heading**:
+Kąt w stopniach (0-360) wskazujący kierunek lotu aircrafta. 0 = północ, 90 = wschód. Ikona aircrafta jest obracana o ten kąt.
+_Avoid_: bearing, course, track
+
+**Callsign**:
+Identyfikator lotu (np. "LOT123", "BAW456"). Wyświetlany pod ikoną aircrafta na radarze.
+_Avoid_: flight number, identifier, registration
+
+**Category**:
+Klasyfikacja ADS-B (A0-A7) określająca typ statku powietrznego. A7 = helicopter, pozostałe traktowane jako samolot.
+_Avoid_: type, aircraft type
+
+**Poll**:
+Cykliczne zapytanie backendu do ADS-B API o listę aircraftów w zasięgu.
+_Avoid_: fetch, sync, refresh
+
+## Relationships
+
+- **Home Point** jest środkiem **Radaru**
+- **Radar** zawiera 5 **Ringów** (5, 10, 15, 20, 25 km)
+- **Aircraft** ma pozycję (lat/lon), **Heading**, **Callsign**, altitude i **Category**
+- **Category** determinuje ikonę: A7 → helicopter, reszta → airplane
+- Backend wykonuje **Poll** co N sekund i pushuje dane przez SignalR do frontendu
+
+## Example dialogue
+
+> **Dev:** "Co się dzieje gdy API ADS-B zwróci 0 aircraftów?"
+> **Domain expert:** "Radar pokazuje puste niebo — pierścienie i oznaczenia kierunków są nadal widoczne, ale bez ikon. Status bar pokazuje '0 aircraftów'."
+>
+> **Dev:** "A gdy aircraft jest poza maksymalnym ringiem (25km) ale w zasięgu fetcha API?"
+> **Domain expert:** "Pokazujemy go jako małą kropkę na krawędzi radaru, na odpowiednim bearingu — tak jak robi to ESP32."
+
+## Flagged ambiguities
+
+- "samolot" vs "śmigłowiec" vs "statek powietrzny" — resolved: używamy **Aircraft** jako ogólnego terminu, **Category A7** wskazuje helicopter
+- "zasięg" może oznaczać range radaru (25km) lub fetch distance API (~33km) — resolved: **Radar Range** to max pierścień (25km), **Fetch Distance** to większy dystans zapytania do API

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FlightRadar.Shared\FlightRadar.Shared.csproj" />
+  </ItemGroup>
+
+  <Target Name="CopyWasm" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
+    <MSBuild Projects="..\FlightRadar.UI.Web\FlightRadar.UI.Web.csproj"
+             Targets="Build"
+             Properties="Configuration=$(Configuration)" />
+    <ItemGroup>
+      <WasmFiles Include="..\FlightRadar.UI.Web\bin\$(Configuration)\net10.0\browser-wasm\AppBundle\**\*" />
+    </ItemGroup>
+    <RemoveDir Directories="wwwroot" />
+    <MakeDir Directories="wwwroot" />
+    <Copy SourceFiles="@(WasmFiles)" DestinationFolder="wwwroot\%(RecursiveDir)" />
+  </Target>
+</Project>
