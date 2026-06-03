@@ -8,7 +8,11 @@ RUN dotnet restore FlightRadar.UI.Web/FlightRadar.UI.Web.csproj
 RUN dotnet publish FlightRadar.UI.Web/FlightRadar.UI.Web.csproj -c Release -o /wasm --no-restore
 
 RUN mkdir -p FlightRadar.Server/wwwroot && \
-    cp -r /wasm/wwwroot/* FlightRadar.Server/wwwroot/
+    if [ -d /wasm/wwwroot ]; then \
+        cp -r /wasm/wwwroot/* FlightRadar.Server/wwwroot/; \
+    else \
+        cp -r /wasm/* FlightRadar.Server/wwwroot/; \
+    fi
 
 RUN dotnet restore FlightRadar.Server/FlightRadar.Server.csproj
 RUN dotnet publish FlightRadar.Server/FlightRadar.Server.csproj -c Release -o /app --no-restore
