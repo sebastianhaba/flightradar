@@ -14,7 +14,7 @@ RUN mkdir -p FlightRadar.Server/wwwroot && \
 RUN dotnet restore FlightRadar.Server/FlightRadar.Server.csproj
 RUN dotnet publish FlightRadar.Server/FlightRadar.Server.csproj -c Release -o /app --no-restore
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=build /app .
 EXPOSE 8080

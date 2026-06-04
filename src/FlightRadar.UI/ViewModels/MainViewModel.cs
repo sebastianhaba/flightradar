@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Avalonia.Media;
-using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FlightRadar.UI.Services;
 using FlightRadar.Shared;
@@ -41,17 +40,15 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel(RadarHubClient hub)
     {
         _hub = hub;
-        _hub.OnRadarUpdate += state =>
-            Dispatcher.UIThread.Post(() => OnRadarUpdate(state));
+        _hub.OnRadarUpdate += state => OnRadarUpdate(state);
 
         _hub.OnConnectionStateChanged += state =>
-            Dispatcher.UIThread.Post(() =>
-            {
-                ConnectionStatus = state;
-                StatusBrush = state.StartsWith("Connected") ? new SolidColorBrush(Colors.LimeGreen)
-                    : state.StartsWith("Disconnected") || state.StartsWith("Failed") ? new SolidColorBrush(Colors.Red)
-                    : new SolidColorBrush(Colors.Orange);
-            });
+        {
+            ConnectionStatus = state;
+            StatusBrush = state.StartsWith("Connected") ? new SolidColorBrush(Colors.LimeGreen)
+                : state.StartsWith("Disconnected") || state.StartsWith("Failed") ? new SolidColorBrush(Colors.Red)
+                : new SolidColorBrush(Colors.Orange);
+        };
     }
 
     private void OnRadarUpdate(RadarState state)
