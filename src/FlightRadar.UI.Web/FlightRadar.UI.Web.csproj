@@ -6,9 +6,11 @@
     <OutputType>Exe</OutputType>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PublishTrimmed>false</PublishTrimmed>
+    <RunAOTCompilation>false</RunAOTCompilation>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <WasmExtraFilesToDeploy Include="AppBundle\**" />
   </ItemGroup>

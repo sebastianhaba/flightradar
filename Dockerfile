@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y python3 && \
     dotnet workload install wasm-tools
 RUN dotnet restore FlightRadar.UI.Web/FlightRadar.UI.Web.csproj
 RUN dotnet publish FlightRadar.UI.Web/FlightRadar.UI.Web.csproj -c Release -o /wasm --no-restore
+RUN find /wasm -name "*.pdb" -delete
 
 RUN mkdir -p FlightRadar.Server/wwwroot && \
     cp -r /wasm/wwwroot/* FlightRadar.Server/wwwroot/ || \
