@@ -7,11 +7,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PublishTrimmed>false</PublishTrimmed>
+    <RunAOTCompilation>true</RunAOTCompilation>
   </PropertyGroup>
 
   <ItemGroup>
     <WasmExtraFilesToDeploy Include="AppBundle\**" />
-    <TrimmerRootDescriptor Include="linker.xml" />
   </ItemGroup>
 
   <ItemGroup>
