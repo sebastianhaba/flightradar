@@ -28,8 +28,8 @@ public partial class DetailViewModel : ViewModelBase
     public string? DetailSquawk => SelectedAircraft?.Squawk;
     public bool? DetailMlat => SelectedAircraft?.Mlat;
     public double? DetailSeenPos => SelectedAircraft?.SeenPos;
-    public string? DetailFirstSeen => SelectedAircraft?.FirstSeen?.ToLocalTime().ToString("HH:mm:ss");
-    public string? DetailLastSeen => SelectedAircraft?.LastSeen?.ToLocalTime().ToString("HH:mm:ss");
+    public string? DetailFirstSeen => SelectedAircraft?.FirstSeenLocal?.ToString("HH:mm:ss");
+    public string? DetailLastSeen => SelectedAircraft?.LastSeenLocal?.ToString("HH:mm:ss");
     public string? DetailType => SelectedAircraft?.IsHelicopter == true ? "Helicopter" : "Airplane";
 
     public double? DetailDistanceKm => ComputeDistance();

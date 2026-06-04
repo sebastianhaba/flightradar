@@ -18,4 +18,7 @@ public class AircraftData
     public DateTime? FirstSeen { get; set; }
     public DateTime? LastSeen { get; set; }
     public bool IsStale { get; set; }
+
+    public DateTime? FirstSeenLocal => FirstSeen?.ToLocalTime();
+    public DateTime? LastSeenLocal => LastSeen?.ToLocalTime();
 }

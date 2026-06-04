@@ -42,7 +42,7 @@
             <Grid ColumnDefinitions="50,*,45,35"
                   Opacity="{Binding IsStale, Converter={x:Static conv:StaleOpacityConverter.Instance}}"
                   Margin="0,1,0,1">
-              <TextBlock Grid.Column="0" Text="{Binding FirstSeen, StringFormat={}{0:HH:mm}}" Foreground="#bbb" FontSize="10"/>
+              <TextBlock Grid.Column="0" Text="{Binding FirstSeenLocal, StringFormat={}{0:HH:mm}}" Foreground="#bbb" FontSize="10"/>
               <TextBlock Grid.Column="1" Text="{Binding Callsign}" Foreground="#ddd" FontSize="10"/>
               <TextBlock Grid.Column="2" Text="{Binding Altitude}" Foreground="#bbb" FontSize="10" HorizontalAlignment="Center"/>
               <TextBlock Grid.Column="3" Text="{Binding Heading, StringFormat={}{0:F0}}" Foreground="#bbb" FontSize="10" HorizontalAlignment="Center"/>
