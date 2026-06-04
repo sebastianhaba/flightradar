@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.StaticFiles;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<AircraftTracker>();
 builder.Services.AddHttpClient<AdsbPoller>();
 builder.Services.AddSingleton<AdsbPoller>();
 builder.Services.AddHostedService(sp => sp.GetRequiredService<AdsbPoller>());

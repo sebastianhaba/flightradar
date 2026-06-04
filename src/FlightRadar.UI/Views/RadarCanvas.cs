@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
@@ -10,15 +11,26 @@ namespace FlightRadar.UI.Views;
 
 public class RadarCanvas : Control
 {
-    public static readonly DirectProperty<RadarCanvas, List<AircraftData>?> AircraftProperty =
-        AvaloniaProperty.RegisterDirect<RadarCanvas, List<AircraftData>?>(
+    public static readonly DirectProperty<RadarCanvas, IList<AircraftData>?> AircraftProperty =
+        AvaloniaProperty.RegisterDirect<RadarCanvas, IList<AircraftData>?>(
             nameof(Aircraft), o => o.Aircraft, (o, v) => o.Aircraft = v);
 
-    private List<AircraftData>? _aircraft;
-    public List<AircraftData>? Aircraft
+    private IList<AircraftData>? _aircraft;
+    public IList<AircraftData>? Aircraft
     {
         get => _aircraft;
-        set { SetAndRaise(AircraftProperty, ref _aircraft, value); InvalidateVisual(); }
+        set
+        {
+            if (_aircraft is INotifyCollectionChanged oldColl)
+                oldColl.CollectionChanged -= OnAircraftCollectionChanged;
+
+            SetAndRaise(AircraftProperty, ref _aircraft, value);
+
+            if (_aircraft is INotifyCollectionChanged newColl)
+                newColl.CollectionChanged += OnAircraftCollectionChanged;
+
+            InvalidateVisual();
+        }
     }
 
     public static readonly StyledProperty<double> CenterLatProperty =
@@ -37,6 +49,11 @@ public class RadarCanvas : Control
     {
         get => GetValue(CenterLonProperty);
         set => SetValue(CenterLonProperty, value);
+    }
+
+    private void OnAircraftCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        InvalidateVisual();
     }
 
     private const double MaxRangeKm = 25;

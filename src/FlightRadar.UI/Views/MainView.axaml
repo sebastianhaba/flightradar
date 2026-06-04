@@ -15,9 +15,20 @@
         <TextBlock Text="{Binding LastUpdateDisplay}" Foreground="#666" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Center"/>
       </StackPanel>
     </Border>
-    <views:RadarCanvas Grid.Row="1"
-                       Aircraft="{Binding Aircraft}"
-                       CenterLat="{Binding CenterLat}"
-                       CenterLon="{Binding CenterLon}"/>
+    <SplitView Grid.Row="1"
+               DisplayMode="CompactInline"
+               IsPaneOpen="{Binding SidePanel.IsPanelOpen}"
+               OpenPaneLength="260"
+               CompactPaneLength="48"
+               PanePlacement="Right">
+      <SplitView.Pane>
+        <views:SidePanelView DataContext="{Binding SidePanel}"/>
+      </SplitView.Pane>
+      <SplitView.Content>
+        <views:RadarCanvas Aircraft="{Binding Aircraft}"
+                           CenterLat="{Binding CenterLat}"
+                           CenterLon="{Binding CenterLon}"/>
+      </SplitView.Content>
+    </SplitView>
   </Grid>
 </UserControl>

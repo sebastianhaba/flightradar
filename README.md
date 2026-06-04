@@ -6,9 +6,11 @@ Okrągły radar lotniczy na żywo pokazujący statki powietrzne w okolicy twojeg
 
 ## Działanie
 
-Backend cyklicznie polluje publiczne API [adsb.fi](https://opendata.adsb.fi/) i pushuje dane do klienta przez SignalR. Radar rysowany jest na Canvas z użyciem SkiaSharp — koncentryczne pierścienie co 5 km, maksymalny zasięg 25 km.
+Backend cyklicznie polluje publiczne API [adsb.fi](https://opendata.adsb.fi/) i pushuje dane do klienta przez SignalR. `AircraftTracker` śledzi historię aircraftów między pollami — timestampy pierwszego/ostatniego pojawienia oraz 30-sekundowy ghost dla aircraftów które zniknęły z zasięgu API.
 
-Samoloty poza zasięgiem (ale w zasięgu fetcha API) pokazywane są jako czerwone kropki na krawędzi radaru.
+Radar rysowany jest na Canvas z użyciem Avalonia DrawingContext — koncentryczne pierścienie co 5 km, maksymalny zasięg 25 km. Samoloty poza zasięgiem (ale w zasięgu fetcha API) pokazywane są jako czerwone kropki na krawędzi radaru.
+
+**Side Panel** — składany panel boczny (SplitView CompactInline, prawa strona) z Aircraft Table (listą wszystkich aircraftów) i sekcją szczegółów po kliknięciu wiersza. W trybie zwiniętym pokazuje tylko ikonę (48px), po rozwinięciu zajmuje 260px wypychając radar.
 
 ## Uruchomienie
 
@@ -63,8 +65,8 @@ docker compose up -d
 ```
 src/
   FlightRadar.Shared/       — DTO (AircraftData, RadarState)
-  FlightRadar.Server/       — ASP.NET Core + SignalR + polling ADS-B
-  FlightRadar.UI/           — Core Avalonia (widoki, viewmodele, canvas)
+  FlightRadar.Server/       — ASP.NET Core + SignalR + AdsbPoller + AircraftTracker
+  FlightRadar.UI/           — Core Avalonia (widoki, viewmodele, canvas, konwertery)
   FlightRadar.UI.Web/       — WASM head (przeglądarka)
   FlightRadar.UI.Desktop/   — Desktop head (Windows/Linux/macOS)
 ```
@@ -72,8 +74,7 @@ src/
 ## Technologie
 
 - .NET 10, C#
-- Avalonia UI 11.3
-- SkiaSharp (canvas radaru)
+- Avalonia UI 11.3 (FluentTheme, SplitView, DrawingContext)
 - SignalR (push danych)
-- CommunityToolkit.Mvvm
+- CommunityToolkit.Mvvm (source generators)
 - adsb.fi open data API

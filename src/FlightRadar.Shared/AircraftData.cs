@@ -11,4 +11,11 @@ public class AircraftData
     public string? Callsign { get; set; }
     public string? Category { get; set; }
     public bool IsHelicopter => Category == "A7";
+    public int? AltBaro { get; set; }
+    public string? Squawk { get; set; }
+    public bool? Mlat { get; set; }
+    public double? SeenPos { get; set; }
+    public DateTime? FirstSeen { get; set; }
+    public DateTime? LastSeen { get; set; }
+    public bool IsStale { get; set; }
 }

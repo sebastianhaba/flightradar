@@ -1,5 +1,8 @@
-using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Avalonia.Media;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FlightRadar.UI.Services;
 using FlightRadar.Shared;
@@ -10,8 +13,9 @@ public partial class MainViewModel : ViewModelBase
 {
     private readonly RadarHubClient _hub;
 
-    [ObservableProperty]
-    private List<AircraftData> _aircraft = [];
+    public ObservableCollection<AircraftData> Aircraft { get; } = [];
+
+    public SidePanelViewModel SidePanel { get; }
 
     [ObservableProperty]
     private int _aircraftCount;
@@ -40,7 +44,9 @@ public partial class MainViewModel : ViewModelBase
     public MainViewModel(RadarHubClient hub)
     {
         _hub = hub;
-        _hub.OnRadarUpdate += state => OnRadarUpdate(state);
+        SidePanel = new SidePanelViewModel { Aircraft = Aircraft };
+
+        _hub.OnRadarUpdate += state => Dispatcher.UIThread.Post(() => OnRadarUpdate(state));
 
         _hub.OnConnectionStateChanged += state =>
         {
@@ -53,13 +59,27 @@ public partial class MainViewModel : ViewModelBase
 
     private void OnRadarUpdate(RadarState state)
     {
-        var count = state.Aircraft?.Count ?? 0;
-        Aircraft = state.Aircraft ?? [];
+        var sorted = state.Aircraft?
+            .OrderByDescending(a => a.FirstSeen ?? DateTime.MinValue)
+            .ToList() ?? [];
+
+        var selectedIcao = SidePanel.SelectedAircraft?.IcaoHex;
+
+        Aircraft.Clear();
+        foreach (var ac in sorted)
+            Aircraft.Add(ac);
+
+        var count = Aircraft.Count;
         AircraftCount = count;
         AircraftCountDisplay = $"{count} aircraft";
         LastUpdate = state.Timestamp.ToLocalTime().ToString("HH:mm:ss");
         LastUpdateDisplay = $"Last: {LastUpdate}";
         CenterLat = state.CenterLat;
         CenterLon = state.CenterLon;
+
+        SidePanel.UpdateDetailCenter(CenterLat, CenterLon);
+
+        var stillSelected = Aircraft.FirstOrDefault(a => a.IcaoHex == selectedIcao);
+        SidePanel.SelectedAircraft = stillSelected;
     }
 }

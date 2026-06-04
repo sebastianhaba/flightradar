@@ -32,9 +32,21 @@ _Avoid_: flight number, identifier, registration
 Klasyfikacja ADS-B (A0-A7) określająca typ statku powietrznego. A7 = helicopter, pozostałe traktowane jako samolot.
 _Avoid_: type, aircraft type
 
+**Stale**:
+Aircraft który nie był widziany przez API przez ponad 30 sekund. Wyświetlany w Aircraft Table z opacity 0.5, usuwany z listy w następnym Pollu.
+_Avoid_: ghost, expired, timeout
+
 **Poll**:
 Cykliczne zapytanie backendu do ADS-B API o listę aircraftów w zasięgu.
 _Avoid_: fetch, sync, refresh
+
+**Aircraft Table**:
+Tekstowa lista wszystkich aircraftów aktualnie na radarze, wyświetlana w panelu bocznym. Każdy wiersz pokazuje timestamp pierwszego pojawienia, Callsign i podstawowe dane (altitude, heading). Kliknięcie wiersza rozwija szczegóły w dolnej sekcji panelu. Stale aircrafty (niewidziane >30s) wyświetlane są z opacity 0.5.
+_Avoid_: log, event log, history
+
+**Side Panel**:
+Składany panel boczny po prawej stronie radaru, zawierający Aircraft Table (góra) i sekcję szczegółów (dół). W trybie zwiniętym pokazuje tylko ikony; w trybie rozwiniętym współdzieli przestrzeń z radarem (inline, nie overlay).
+_Avoid_: sidebar, drawer, dock
 
 ## Relationships
 
@@ -43,6 +55,9 @@ _Avoid_: fetch, sync, refresh
 - **Aircraft** ma pozycję (lat/lon), **Heading**, **Callsign**, altitude i **Category**
 - **Category** determinuje ikonę: A7 → helicopter, reszta → airplane
 - Backend wykonuje **Poll** co N sekund i pushuje dane przez SignalR do frontendu
+- **Side Panel** zawiera **Aircraft Table** (góra) i sekcję szczegółów (dół)
+- Kliknięcie wiersza w **Aircraft Table** wypełnia dolną sekcję **Side Panel** szczegółami aircrafta
+- Aircraft który nie pojawił się w API przez >30s jest oznaczany jako **stale** i usuwany z listy
 
 ## Example dialogue
 
