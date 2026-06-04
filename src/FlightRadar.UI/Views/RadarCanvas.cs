@@ -82,7 +82,7 @@ public class RadarCanvas : Control
 
         var ft = new FormattedText("25 km", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
             Typeface.Default, 11, new SolidColorBrush(Color.FromRgb(0, 255, 0)));
-        ctx.DrawText(ft, new Point(cx + radius - 44, cy - 14));
+        ctx.DrawText(ft, new Point(cx + radius - ft.Width - 4, cy + 2));
     }
 
     private static void DrawCardinals(DrawingContext ctx, double cx, double cy, double radius)
