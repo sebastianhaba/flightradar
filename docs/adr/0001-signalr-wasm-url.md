@@ -2,15 +2,44 @@
 
 **Status:** accepted
 
-Klient używa **SignalR** jako jedynego kanału danych (nie HTTP polling). Problemem jest rozpoznawanie URLa huba w WASM: relatywne ścieżki (`/hubs/radar`) w runtime WASM błędnie rozpoznawane są jako `file://`, a hardcodowany `http://localhost:8080` działa tylko lokalnie.
+Klient używa **SignalR** jako jedynego kanału danych.
 
-Rozwiązanie: `main.js` przed uruchomieniem runtime .NET wstrzykuje origin strony jako query parameter (`?hub=http://origin/hubs/radar`). `.withApplicationArgumentsFromQuery()` przekazuje go jako `--hub=` argument do `Program.Main()`, który ustawia `HUB_URL` env var przed uruchomieniem Avalonii. `RadarHubClient` czyta tę zmienną.
+Problem: WASM nie zna originu strony (relatywny URL `/hubs/radar` błędnie resolwowany jako `file://`), a hardcodowany `http://localhost:8080` działa tylko lokalnie.
 
-Ten mechanizm omija potrzebę `[JSImport]`/`JSHost.ImportAsync` (które wymagają unsafe code i mają problem z cyklicznymi zależnościami z `main.js`), oraz `withEnvironmentVariable` w bootstrapperze (niedostępne lub niedziałające w tej wersji runtime).
+Rozwiązanie: przy starcie aplikacji WASM, kod w `Program.cs` odpytuje JavaScript o `window.location.origin` przez `[JSImport]`, zapisuje wynik do `AppOptions.BaseUrl`, a `RadarHubClient` konstruuje z tego pełny URL huba.
 
-**Desktop:** używa fallbacku `http://localhost:8080/hubs/radar` lub zmiennej `HUB_URL` ustawionej ręcznie.
+Kluczowy pattern JS interop w WASM (do zapamiętania):
 
-**Rozważane alternatywy:**
-- HTTP polling `/api/radar` — prostszy w WASM, ale traci real-time push i status połączenia
-- `[JSImport]` z `JSHost.ImportAsync` — cykliczna zależność z `main.js` (który odpala `dotnet.create()`)
-- `create({ environmentVariables })` — nie działa w tej wersji WASM bootstrappera
+1. **Osobny plik JS** (np. `interop.js`) z eksportowanymi funkcjami — nie `main.js` (który odpala `dotnet.create()` i powoduje cykliczną zależność)
+2. `JSHost.ImportAsync("Nazwa", "../plik.js")` — ścieżka względem `_framework/`, więc `../` trafia do roota AppBundle
+3. `[JSImport("funkcja", "Nazwa")]` na `static partial` metodzie w `Program.cs`
+4. `<AllowUnsafeBlocks>true</AllowUnsafeBlocks>` w csproj projektu WASM
+
+```csharp
+// Program.cs (WASM head)
+await JSHost.ImportAsync("MyInterop", "../interop.js");
+AppOptions.BaseUrl = Browser.GetOrigin();
+
+[SupportedOSPlatform("browser")]
+public static partial class Browser
+{
+    [JSImport("getOrigin", "MyInterop")]
+    public static partial string GetOrigin();
+}
+```
+
+```javascript
+// interop.js
+export function getOrigin() {
+    return window.location.origin;
+}
+```
+
+Desktop używa fallbacku: `HUB_URL` env var lub `http://localhost:8080/hubs/radar`.
+
+**Rozważane i odrzucone:**
+- HTTP polling `/api/radar` — prostszy w WASM, ale traci real-time push
+- Query string `?hub=...` + `.withApplicationArgumentsFromQuery()` — nie przekazuje argów do `Program.Main` w tej wersji runtime
+- `create({ environmentVariables })` — nie działa
+- `[JSImport]` z `main.js` — cykliczna zależność (main.js odpala `dotnet.create()`)
+- Endpoint `/api/hub-url` + `HttpClient.GetStringAsync` — WASM nie radzi sobie z relatywnym URL w `GetStringAsync`

@@ -46,8 +46,8 @@ public partial class MainViewModel : ViewModelBase
             ConnectionStatus = state;
             StatusBrush = state switch
             {
-                "Connected" => new SolidColorBrush(Colors.LimeGreen),
-                "Disconnected" => new SolidColorBrush(Colors.Red),
+                _ when state.StartsWith("Connected") => new SolidColorBrush(Colors.LimeGreen),
+                _ when state.StartsWith("Disconnected") || state.StartsWith("Failed") => new SolidColorBrush(Colors.Red),
                 _ => new SolidColorBrush(Colors.Orange)
             };
         };

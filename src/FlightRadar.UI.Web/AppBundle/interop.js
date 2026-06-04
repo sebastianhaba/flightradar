@@ -2,6 +2,6 @@
     return window.location.origin;
 }
 
-export function showAlert(message) {
-    globalThis.alert(message);
+export function consoleLog(message) {
+    console.log(message);
 }

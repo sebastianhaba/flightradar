@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using FlightRadar.Shared;
@@ -10,46 +8,55 @@ namespace FlightRadar.UI.Services;
 public class RadarHubClient
 {
     private readonly HubConnection _connection;
+    public string HubUrl { get; }
+
+    public static Action<string>? Log { get; set; }
 
     public event Action<RadarState>? OnRadarUpdate;
     public event Action<string>? OnConnectionStateChanged;
 
     public RadarHubClient()
     {
-        var hubUrl = AppOptions.BaseUrl;
-        if(string.IsNullOrEmpty(hubUrl))
-        {
-            hubUrl = Environment.GetEnvironmentVariable("HUB_URL") ?? "http://localhost:8080/hubs/radar";;
-        }
-        else
-        {
-            hubUrl = $"{AppOptions.BaseUrl}/hubs/radar";
-        }
-        
+        var baseUrl = AppOptions.BaseUrl;
+        if (string.IsNullOrEmpty(baseUrl))
+            baseUrl = Environment.GetEnvironmentVariable("HUB_URL") ?? "http://localhost:8080";
+
+        HubUrl = $"{baseUrl}/hubs/radar";
+        Log?.Invoke($"[RadarHub] hubUrl={HubUrl}");
+
         _connection = new HubConnectionBuilder()
-            .WithUrl(hubUrl)
+            .WithUrl(HubUrl)
             .AddJsonProtocol(o => o.PayloadSerializerOptions.TypeInfoResolver = AppJsonContext.Default)
             .WithAutomaticReconnect()
             .Build();
 
         _connection.On<RadarState>("RadarUpdate", state =>
-            OnRadarUpdate?.Invoke(state));
+        {
+            Log?.Invoke($"[RadarHub] Received {state.TotalAircraft} aircraft");
+            OnRadarUpdate?.Invoke(state);
+        });
 
         _connection.Reconnecting += _ =>
         {
-            OnConnectionStateChanged?.Invoke("Reconnecting...");
+            var msg = $"Reconnecting to {HubUrl}...";
+            Log?.Invoke(msg);
+            OnConnectionStateChanged?.Invoke(msg);
             return Task.CompletedTask;
         };
 
         _connection.Reconnected += _ =>
         {
-            OnConnectionStateChanged?.Invoke("Connected");
+            var msg = $"Connected {HubUrl}";
+            Log?.Invoke(msg);
+            OnConnectionStateChanged?.Invoke(msg);
             return Task.CompletedTask;
         };
 
-        _connection.Closed += _ =>
+        _connection.Closed += ex =>
         {
-            OnConnectionStateChanged?.Invoke("Disconnected");
+            var msg = ex is null ? "Disconnected" : $"Disconnected: {ex.Message}";
+            Log?.Invoke(msg);
+            OnConnectionStateChanged?.Invoke(msg);
             return Task.CompletedTask;
         };
     }
@@ -58,12 +65,19 @@ public class RadarHubClient
     {
         try
         {
+            var msg = $"Connecting to {HubUrl}...";
+            Log?.Invoke(msg);
+            OnConnectionStateChanged?.Invoke(msg);
             await _connection.StartAsync();
-            OnConnectionStateChanged?.Invoke("Connected");
+            var ok = $"Connected {HubUrl}";
+            Log?.Invoke(ok);
+            OnConnectionStateChanged?.Invoke(ok);
         }
-        catch
+        catch (Exception ex)
         {
-            OnConnectionStateChanged?.Invoke("Connection failed");
+            var msg = $"Failed: {ex.Message}";
+            Log?.Invoke(msg);
+            OnConnectionStateChanged?.Invoke(msg);
         }
     }
 }

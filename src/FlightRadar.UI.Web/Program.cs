@@ -2,9 +2,8 @@ using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Versioning;
 using Avalonia;
 using Avalonia.Browser;
-using System.Runtime.InteropServices.JavaScript;
 using FlightRadar.UI.Configuration;
-
+using FlightRadar.UI.Services;
 
 [assembly: SupportedOSPlatform("browser")]
 
@@ -14,6 +13,8 @@ internal partial class Program
     {
         await JSHost.ImportAsync("MyInterop", "../interop.js");
         AppOptions.BaseUrl = Browser.GetOrigin();
+        RadarHubClient.Log = Browser.ConsoleLog;
+        Browser.ConsoleLog($"[FlightRadar] BaseUrl={AppOptions.BaseUrl}");
 
         await BuildAvaloniaApp()
              .WithInterFont()
@@ -22,14 +23,14 @@ internal partial class Program
 
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<FlightRadar.UI.App>();
-    
+
     [SupportedOSPlatform("browser")]
     public static partial class Browser
     {
         [JSImport("getOrigin", "MyInterop")]
         public static partial string GetOrigin();
-        
-        [JSImport("showAlert", "MyInterop")]
-        public static partial void ShowAlert(string message);
+
+        [JSImport("consoleLog", "MyInterop")]
+        public static partial void ConsoleLog(string message);
     }
 }
