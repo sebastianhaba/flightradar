@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using FlightRadar.Shared;
+using FlightRadar.UI.Configuration;
 
 namespace FlightRadar.UI.Services;
 
@@ -15,8 +16,16 @@ public class RadarHubClient
 
     public RadarHubClient()
     {
-        var hubUrl = Environment.GetEnvironmentVariable("HUB_URL") ?? "http://localhost:8080/hubs/radar";
-
+        var hubUrl = AppOptions.BaseUrl;
+        if(string.IsNullOrEmpty(hubUrl))
+        {
+            hubUrl = Environment.GetEnvironmentVariable("HUB_URL") ?? "http://localhost:8080/hubs/radar";;
+        }
+        else
+        {
+            hubUrl = $"{AppOptions.BaseUrl}/hubs/radar";
+        }
+        
         _connection = new HubConnectionBuilder()
             .WithUrl(hubUrl)
             .AddJsonProtocol(o => o.PayloadSerializerOptions.TypeInfoResolver = AppJsonContext.Default)
