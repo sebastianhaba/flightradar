@@ -6,7 +6,7 @@
              x:DataType="vm:HistoryViewModel">
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="32"/>
+      <RowDefinition Height="40"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
