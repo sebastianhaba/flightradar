@@ -14,6 +14,7 @@ internal partial class Program
         await JSHost.ImportAsync("MyInterop", "../interop.js");
         AppOptions.BaseUrl = Browser.GetOrigin();
         RadarHubClient.Log = Browser.ConsoleLog;
+        RadarHubClient.OpenUrl = Browser.OpenUrl;
         Browser.ConsoleLog($"[FlightRadar] BaseUrl={AppOptions.BaseUrl}");
 
         await BuildAvaloniaApp()
@@ -32,5 +33,8 @@ internal partial class Program
 
         [JSImport("consoleLog", "MyInterop")]
         public static partial void ConsoleLog(string message);
+
+        [JSImport("openUrl", "MyInterop")]
+        public static partial void OpenUrl(string url);
     }
 }

@@ -1,6 +1,9 @@
 using System;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using FlightRadar.Shared;
+using FlightRadar.UI.Services;
 
 namespace FlightRadar.UI.ViewModels;
 
@@ -36,6 +39,11 @@ public partial class DetailViewModel : ViewModelBase
     public string? DetailRegistration => SelectedAircraft?.Registration;
     public string? DetailOwnOp => SelectedAircraft?.OwnOp;
 
+    public bool HasWiki => !string.IsNullOrWhiteSpace(SelectedAircraft?.TypeCode);
+    public string? DetailWikiUrl => HasWiki
+        ? $"https://en.wikipedia.org/w/index.php?search={SelectedAircraft!.TypeCode}"
+        : null;
+
     public double? DetailDistanceKm => ComputeDb().DistanceKm;
     public double? DetailBearing => ComputeDb().Bearing;
 
@@ -61,8 +69,21 @@ public partial class DetailViewModel : ViewModelBase
         OnPropertyChanged(nameof(DetailDescription));
         OnPropertyChanged(nameof(DetailRegistration));
         OnPropertyChanged(nameof(DetailOwnOp));
+        OnPropertyChanged(nameof(HasWiki));
+        OnPropertyChanged(nameof(DetailWikiUrl));
         OnPropertyChanged(nameof(DetailDistanceKm));
         OnPropertyChanged(nameof(DetailBearing));
+    }
+
+    [RelayCommand]
+    private void OpenWiki()
+    {
+        if (DetailWikiUrl is not { } url) return;
+
+        if (RadarHubClient.OpenUrl is not null)
+            RadarHubClient.OpenUrl(url);
+        else
+            try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); } catch { }
     }
 
     private (double? DistanceKm, double? Bearing) ComputeDb()

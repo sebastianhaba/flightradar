@@ -74,7 +74,14 @@
                     <TextBlock Grid.Row="5"  Grid.Column="0" Classes="detail-label" Text="Kod"/>
                     <TextBlock Grid.Row="5"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailTypeCode}"/>
                     <TextBlock Grid.Row="6"  Grid.Column="0" Classes="detail-label" Text="Opis"/>
-                    <TextBlock Grid.Row="6"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailDescription}"/>
+                    <StackPanel Grid.Row="6" Grid.Column="1" Margin="4,0,0,0">
+                      <TextBlock Classes="detail-value" Margin="0" Text="{Binding DetailDescription}"/>
+                      <Button Content="Wikipedia" Background="Transparent" BorderThickness="0"
+                              Foreground="#5080cc" FontSize="10" Padding="0" Margin="0,1,0,0"
+                              HorizontalAlignment="Left"
+                              Command="{Binding OpenWikiCommand}"
+                              IsVisible="{Binding HasWiki}"/>
+                    </StackPanel>
                     <TextBlock Grid.Row="7"  Grid.Column="0" Classes="detail-label" Text="Szer."/>
                     <TextBlock Grid.Row="7"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailLatitude, StringFormat={}{0:F4}}"/>
                     <TextBlock Grid.Row="8"  Grid.Column="0" Classes="detail-label" Text="Dł."/>

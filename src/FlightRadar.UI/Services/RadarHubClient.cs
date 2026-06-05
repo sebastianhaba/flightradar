@@ -12,6 +12,7 @@ public class RadarHubClient
     public string HubUrl { get; }
 
     public static Action<string>? Log { get; set; }
+    public static Action<string>? OpenUrl { get; set; }
 
     public event Action<RadarState>? OnRadarUpdate;
     public event Action<string>? OnConnectionStateChanged;
