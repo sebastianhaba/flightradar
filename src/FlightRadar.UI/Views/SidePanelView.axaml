@@ -17,7 +17,7 @@
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="*"/>
-        <RowDefinition Height="230"/>
+        <RowDefinition Height="320"/>
       </Grid.RowDefinitions>
 
       <TextBlock Grid.Row="0" Classes="panel-header" Text="Lista statków"/>
@@ -59,36 +59,44 @@
                            Text="Kliknij statek w tabeli aby zobaczyć szczegóły"/>
 
                 <ScrollViewer IsVisible="{Binding HasSelection}" VerticalScrollBarVisibility="Auto">
-                  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                         ColumnDefinitions="80,*" Margin="0,4,0,0">
                     <TextBlock Grid.Row="0"  Grid.Column="0" Classes="detail-label" Text="Znak"/>
                     <TextBlock Grid.Row="0"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailCallsign}"/>
                     <TextBlock Grid.Row="1"  Grid.Column="0" Classes="detail-label" Text="ICAO"/>
                     <TextBlock Grid.Row="1"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailIcaoHex}"/>
-                    <TextBlock Grid.Row="2"  Grid.Column="0" Classes="detail-label" Text="Typ"/>
-                    <TextBlock Grid.Row="2"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailType}"/>
-                    <TextBlock Grid.Row="3"  Grid.Column="0" Classes="detail-label" Text="Szer."/>
-                    <TextBlock Grid.Row="3"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailLatitude, StringFormat={}{0:F4}}"/>
-                    <TextBlock Grid.Row="4"  Grid.Column="0" Classes="detail-label" Text="Dł."/>
-                    <TextBlock Grid.Row="4"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailLongitude, StringFormat={}{0:F4}}"/>
-                    <TextBlock Grid.Row="5"  Grid.Column="0" Classes="detail-label" Text="Odległość"/>
-                    <TextBlock Grid.Row="5"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailDistanceKm, StringFormat={}{0:F1} km}"/>
-                    <TextBlock Grid.Row="6"  Grid.Column="0" Classes="detail-label" Text="Kierunek"/>
-                    <TextBlock Grid.Row="6"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailBearing, StringFormat={}{0:F0}°}"/>
-                    <TextBlock Grid.Row="7"  Grid.Column="0" Classes="detail-label" Text="Wys. geom."/>
-                    <TextBlock Grid.Row="7"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailAltitude, StringFormat={}{0} ft}"/>
-                    <TextBlock Grid.Row="8"  Grid.Column="0" Classes="detail-label" Text="Wys. baro."/>
-                    <TextBlock Grid.Row="8"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailAltBaro, StringFormat={}{0} ft}"/>
-                    <TextBlock Grid.Row="9"  Grid.Column="0" Classes="detail-label" Text="Prędkość"/>
-                    <TextBlock Grid.Row="9"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailGroundSpeed, StringFormat={}{0:F0} węz}"/>
-                    <TextBlock Grid.Row="10" Grid.Column="0" Classes="detail-label" Text="Kurs"/>
-                    <TextBlock Grid.Row="10" Grid.Column="1" Classes="detail-value" Text="{Binding DetailHeading, StringFormat={}{0:F0}°}"/>
-                    <TextBlock Grid.Row="11" Grid.Column="0" Classes="detail-label" Text="Squawk"/>
-                    <TextBlock Grid.Row="11" Grid.Column="1" Classes="detail-value" Text="{Binding DetailSquawk}"/>
-                    <TextBlock Grid.Row="12" Grid.Column="0" Classes="detail-label" Text="Pierwszy raz"/>
-                    <TextBlock Grid.Row="12" Grid.Column="1" Classes="detail-value" Text="{Binding DetailFirstSeen}"/>
-                    <TextBlock Grid.Row="13" Grid.Column="0" Classes="detail-label" Text="Ostatni raz"/>
-                    <TextBlock Grid.Row="13" Grid.Column="1" Classes="detail-value" Text="{Binding DetailLastSeen}"/>
+                    <TextBlock Grid.Row="2"  Grid.Column="0" Classes="detail-label" Text="Rejestracja"/>
+                    <TextBlock Grid.Row="2"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailRegistration}"/>
+                    <TextBlock Grid.Row="3"  Grid.Column="0" Classes="detail-label" Text="Operator"/>
+                    <TextBlock Grid.Row="3"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailOwnOp}"/>
+                    <TextBlock Grid.Row="4"  Grid.Column="0" Classes="detail-label" Text="Typ"/>
+                    <TextBlock Grid.Row="4"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailType}"/>
+                    <TextBlock Grid.Row="5"  Grid.Column="0" Classes="detail-label" Text="Kod"/>
+                    <TextBlock Grid.Row="5"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailTypeCode}"/>
+                    <TextBlock Grid.Row="6"  Grid.Column="0" Classes="detail-label" Text="Opis"/>
+                    <TextBlock Grid.Row="6"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailDescription}"/>
+                    <TextBlock Grid.Row="7"  Grid.Column="0" Classes="detail-label" Text="Szer."/>
+                    <TextBlock Grid.Row="7"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailLatitude, StringFormat={}{0:F4}}"/>
+                    <TextBlock Grid.Row="8"  Grid.Column="0" Classes="detail-label" Text="Dł."/>
+                    <TextBlock Grid.Row="8"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailLongitude, StringFormat={}{0:F4}}"/>
+                    <TextBlock Grid.Row="9"  Grid.Column="0" Classes="detail-label" Text="Odległość"/>
+                    <TextBlock Grid.Row="9"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailDistanceKm, StringFormat={}{0:F1} km}"/>
+                    <TextBlock Grid.Row="10" Grid.Column="0" Classes="detail-label" Text="Kierunek"/>
+                    <TextBlock Grid.Row="10" Grid.Column="1" Classes="detail-value" Text="{Binding DetailBearing, StringFormat={}{0:F0}°}"/>
+                    <TextBlock Grid.Row="11" Grid.Column="0" Classes="detail-label" Text="Wys. geom."/>
+                    <TextBlock Grid.Row="11" Grid.Column="1" Classes="detail-value" Text="{Binding DetailAltitude, StringFormat={}{0} ft}"/>
+                    <TextBlock Grid.Row="12" Grid.Column="0" Classes="detail-label" Text="Wys. baro."/>
+                    <TextBlock Grid.Row="12" Grid.Column="1" Classes="detail-value" Text="{Binding DetailAltBaro, StringFormat={}{0} ft}"/>
+                    <TextBlock Grid.Row="13" Grid.Column="0" Classes="detail-label" Text="Prędkość"/>
+                    <TextBlock Grid.Row="13" Grid.Column="1" Classes="detail-value" Text="{Binding DetailGroundSpeed, StringFormat={}{0:F0} węz}"/>
+                    <TextBlock Grid.Row="14" Grid.Column="0" Classes="detail-label" Text="Kurs"/>
+                    <TextBlock Grid.Row="14" Grid.Column="1" Classes="detail-value" Text="{Binding DetailHeading, StringFormat={}{0:F0}°}"/>
+                    <TextBlock Grid.Row="15" Grid.Column="0" Classes="detail-label" Text="Squawk"/>
+                    <TextBlock Grid.Row="15" Grid.Column="1" Classes="detail-value" Text="{Binding DetailSquawk}"/>
+                    <TextBlock Grid.Row="16" Grid.Column="0" Classes="detail-label" Text="Pierwszy raz"/>
+                    <TextBlock Grid.Row="16" Grid.Column="1" Classes="detail-value" Text="{Binding DetailFirstSeen}"/>
+                    <TextBlock Grid.Row="17" Grid.Column="0" Classes="detail-label" Text="Ostatni raz"/>
+                    <TextBlock Grid.Row="17" Grid.Column="1" Classes="detail-value" Text="{Binding DetailLastSeen}"/>
                   </Grid>
                 </ScrollViewer>
               </Grid>

@@ -31,6 +31,10 @@ public partial class DetailViewModel : ViewModelBase
     public string? DetailFirstSeen => SelectedAircraft?.FirstSeenLocal?.ToString("HH:mm:ss");
     public string? DetailLastSeen => SelectedAircraft?.LastSeenLocal?.ToString("HH:mm:ss");
     public string? DetailType => SelectedAircraft?.IsHelicopter == true ? "Śmigłowiec" : "Samolot";
+    public string? DetailTypeCode => SelectedAircraft?.TypeCode;
+    public string? DetailDescription => SelectedAircraft?.Description;
+    public string? DetailRegistration => SelectedAircraft?.Registration;
+    public string? DetailOwnOp => SelectedAircraft?.OwnOp;
 
     public double? DetailDistanceKm => ComputeDb().DistanceKm;
     public double? DetailBearing => ComputeDb().Bearing;
@@ -53,6 +57,10 @@ public partial class DetailViewModel : ViewModelBase
         OnPropertyChanged(nameof(DetailFirstSeen));
         OnPropertyChanged(nameof(DetailLastSeen));
         OnPropertyChanged(nameof(DetailType));
+        OnPropertyChanged(nameof(DetailTypeCode));
+        OnPropertyChanged(nameof(DetailDescription));
+        OnPropertyChanged(nameof(DetailRegistration));
+        OnPropertyChanged(nameof(DetailOwnOp));
         OnPropertyChanged(nameof(DetailDistanceKm));
         OnPropertyChanged(nameof(DetailBearing));
     }

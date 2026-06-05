@@ -79,7 +79,11 @@ public class AdsbPoller : BackgroundService
                             : null,
                         Squawk = a.Squawk,
                         Mlat = a.Mlat?.Length > 0,
-                        SeenPos = a.SeenPos
+                        SeenPos = a.SeenPos,
+                        TypeCode = a.TypeCode,
+                        Description = a.Description,
+                        Registration = a.Registration,
+                        OwnOp = a.OwnOp
                     })
                     .ToList() ?? [];
 
@@ -119,7 +123,11 @@ public class AdsbPoller : BackgroundService
         [property: JsonPropertyName("alt_baro")] JsonElement? AltBaro,
         [property: JsonPropertyName("squawk")] string? Squawk,
         [property: JsonPropertyName("mlat")] string[]? Mlat,
-        [property: JsonPropertyName("seen_pos")] double? SeenPos);
+        [property: JsonPropertyName("seen_pos")] double? SeenPos,
+        [property: JsonPropertyName("t")] string? TypeCode,
+        [property: JsonPropertyName("desc")] string? Description,
+        [property: JsonPropertyName("r")] string? Registration,
+        [property: JsonPropertyName("ownOp")] string? OwnOp);
 
     private record AdsbApiResponse(
         [property: JsonPropertyName("ac")]
