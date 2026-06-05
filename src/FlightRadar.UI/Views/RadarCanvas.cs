@@ -58,6 +58,29 @@ public class RadarCanvas : Control
 
     private const double MaxRangeKm = 25;
 
+    // Cached resources — created once, reused every frame
+    private static readonly IBrush BlackBrush = new SolidColorBrush(Colors.Black);
+    private static readonly IBrush WhiteBrush = new SolidColorBrush(Colors.White);
+    private static readonly IBrush RedBrush = new SolidColorBrush(Colors.Red);
+    private static readonly IBrush RingBrush = new SolidColorBrush(Color.FromRgb(40, 60, 40));
+    private static readonly IBrush CrossBrush = new SolidColorBrush(Color.FromRgb(30, 50, 30));
+    private static readonly IBrush RangeTextBrush = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+    private static readonly IBrush AirplaneFill = new SolidColorBrush(Color.FromRgb(255, 80, 80));
+    private static readonly IBrush HeliFill = new SolidColorBrush(Color.FromRgb(255, 200, 0));
+    private static readonly IBrush RotorBrush = new SolidColorBrush(Color.FromRgb(200, 200, 200));
+    private static readonly IBrush CallsignBrush = new SolidColorBrush(Color.FromRgb(200, 200, 200));
+    private static readonly IBrush AltBrush = new SolidColorBrush(Color.FromRgb(150, 150, 150));
+
+    private static readonly Pen RingPen = new(RingBrush, 1);
+    private static readonly Pen CrossPen = new(CrossBrush, 0.5);
+    private static readonly Pen RotorPen = new(RotorBrush, 1);
+
+    private static readonly FormattedText LabelN = new("N", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
+    private static readonly FormattedText LabelS = new("S", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
+    private static readonly FormattedText LabelW = new("W", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
+    private static readonly FormattedText LabelE = new("E", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
+    private static readonly FormattedText Label25Km = new("25 km", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 11, RangeTextBrush);
+
     static RadarCanvas()
     {
         AffectsRender<RadarCanvas>(AircraftProperty, CenterLatProperty, CenterLonProperty);
@@ -81,41 +104,31 @@ public class RadarCanvas : Control
 
     private static void DrawBackground(DrawingContext ctx, double cx, double cy, double radius)
     {
-        ctx.DrawEllipse(new SolidColorBrush(Colors.Black), null, new Point(cx, cy), radius, radius);
+        ctx.DrawEllipse(BlackBrush, null, new Point(cx, cy), radius, radius);
     }
 
     private static void DrawRings(DrawingContext ctx, double cx, double cy, double radius, double pxPerKm)
     {
-        var ringPen = new Pen(new SolidColorBrush(Color.FromRgb(40, 60, 40)), 1);
         for (int i = 1; i <= 5; i++)
         {
             var r = i * 5 * pxPerKm;
-            ctx.DrawEllipse(null, ringPen, new Point(cx, cy), r, r);
+            ctx.DrawEllipse(null, RingPen, new Point(cx, cy), r, r);
         }
 
-        var crossPen = new Pen(new SolidColorBrush(Color.FromRgb(30, 50, 30)), 0.5);
-        ctx.DrawLine(crossPen, new Point(cx - radius, cy), new Point(cx + radius, cy));
-        ctx.DrawLine(crossPen, new Point(cx, cy - radius), new Point(cx, cy + radius));
+        ctx.DrawLine(CrossPen, new Point(cx - radius, cy), new Point(cx + radius, cy));
+        ctx.DrawLine(CrossPen, new Point(cx, cy - radius), new Point(cx, cy + radius));
 
-        var ft = new FormattedText("25 km", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-            Typeface.Default, 11, new SolidColorBrush(Color.FromRgb(0, 255, 0)));
-        ctx.DrawText(ft, new Point(cx + radius - ft.Width - 4, cy + 2));
+        ctx.DrawText(Label25Km, new Point(cx + radius - Label25Km.Width - 4, cy + 2));
     }
 
     private static void DrawCardinals(DrawingContext ctx, double cx, double cy, double radius)
     {
-        var white = new SolidColorBrush(Colors.White);
         var gap = 6;
 
-        var n = new FormattedText("N", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, white);
-        var s = new FormattedText("S", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, white);
-        var w = new FormattedText("W", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, white);
-        var e = new FormattedText("E", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, white);
-
-        ctx.DrawText(n, new Point(cx - n.Width / 2, cy - radius - gap - n.Height));
-        ctx.DrawText(s, new Point(cx - s.Width / 2, cy + radius + gap));
-        ctx.DrawText(w, new Point(cx - radius - gap - w.Width, cy - w.Height / 2));
-        ctx.DrawText(e, new Point(cx + radius + gap, cy - e.Height / 2));
+        ctx.DrawText(LabelN, new Point(cx - LabelN.Width / 2, cy - radius - gap - LabelN.Height));
+        ctx.DrawText(LabelS, new Point(cx - LabelS.Width / 2, cy + radius + gap));
+        ctx.DrawText(LabelW, new Point(cx - radius - gap - LabelW.Width, cy - LabelW.Height / 2));
+        ctx.DrawText(LabelE, new Point(cx + radius + gap, cy - LabelE.Height / 2));
     }
 
     private void DrawAircraft(DrawingContext ctx, double cx, double cy, double pxPerKm, double radius)
@@ -129,7 +142,7 @@ public class RadarCanvas : Control
                 var rimAngle = bearing * Math.PI / 180;
                 var dotX = cx + Math.Sin(rimAngle) * (radius - 8);
                 var dotY = cy - Math.Cos(rimAngle) * (radius - 8);
-                ctx.DrawEllipse(new SolidColorBrush(Colors.Red), null, new Point(dotX, dotY), 3, 3);
+                ctx.DrawEllipse(RedBrush, null, new Point(dotX, dotY), 3, 3);
                 continue;
             }
 
@@ -152,9 +165,6 @@ public class RadarCanvas : Control
         var left = new Point(x + Math.Sin(headingRad + 2.4) * size * 0.55, y - Math.Cos(headingRad + 2.4) * size * 0.55);
         var right = new Point(x + Math.Sin(headingRad - 2.4) * size * 0.55, y - Math.Cos(headingRad - 2.4) * size * 0.55);
 
-        var color = isHeli ? Color.FromRgb(255, 200, 0) : Color.FromRgb(255, 80, 80);
-        var fill = new SolidColorBrush(color);
-
         var geo = new StreamGeometry();
         using (var sgc = geo.Open())
         {
@@ -165,8 +175,7 @@ public class RadarCanvas : Control
                 sgc.LineTo(new Point(x + 4, y + 3));
                 sgc.LineTo(new Point(x - 4, y + 3));
                 sgc.EndFigure(true);
-                var rotorPen = new Pen(new SolidColorBrush(Color.FromRgb(200, 200, 200)), 1);
-                ctx.DrawLine(rotorPen, new Point(x - 6, y), new Point(x + 6, y));
+                ctx.DrawLine(RotorPen, new Point(x - 6, y), new Point(x + 6, y));
             }
             else
             {
@@ -176,7 +185,7 @@ public class RadarCanvas : Control
                 sgc.EndFigure(true);
             }
         }
-        ctx.DrawGeometry(fill, null, geo);
+        ctx.DrawGeometry(isHeli ? HeliFill : AirplaneFill, null, geo);
     }
 
     private static void DrawAircraftLabel(DrawingContext ctx, double x, double y, AircraftData ac)
@@ -184,13 +193,10 @@ public class RadarCanvas : Control
         var callsign = !string.IsNullOrWhiteSpace(ac.Callsign) ? ac.Callsign
             : ac.IcaoHex.Length >= 6 ? ac.IcaoHex[..6] : ac.IcaoHex;
 
-        var gray1 = new SolidColorBrush(Color.FromRgb(200, 200, 200));
-        var gray2 = new SolidColorBrush(Color.FromRgb(150, 150, 150));
-
         var cs = new FormattedText(callsign, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-            Typeface.Default, 10, gray1);
+            Typeface.Default, 10, CallsignBrush);
         var alt = new FormattedText($"{ac.Altitude}' | {ac.Heading:F0}°", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
-            Typeface.Default, 9, gray2);
+            Typeface.Default, 9, AltBrush);
 
         ctx.DrawText(cs, new Point(x - cs.Width / 2, y + 10));
         ctx.DrawText(alt, new Point(x - alt.Width / 2, y + 22));
