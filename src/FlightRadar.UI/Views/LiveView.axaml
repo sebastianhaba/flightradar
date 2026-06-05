@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="clr-namespace:FlightRadar.UI.Views"
+             x:Class="FlightRadar.UI.Views.LiveView">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="32"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Grid Grid.Row="0" Background="#1a1a2e">
+      <Border Width="8" Height="8" CornerRadius="4" Background="{Binding StatusBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8 0 0 0"/>
+      <TextBlock Classes="status" Text="{Binding AircraftCountDisplay}" HorizontalAlignment="Center"/>
+      <TextBlock Classes="status-muted" Text="{Binding LastUpdateDisplay}" HorizontalAlignment="Right" Margin="0 0 8 0"/>
+    </Grid>
+    <SplitView Grid.Row="1"
+               DisplayMode="CompactInline"
+               IsPaneOpen="{Binding SidePanel.IsPanelOpen}"
+               OpenPaneLength="260"
+               CompactPaneLength="48"
+               PanePlacement="Right">
+      <SplitView.Pane>
+        <views:SidePanelView DataContext="{Binding SidePanel}"/>
+      </SplitView.Pane>
+      <SplitView.Content>
+        <views:RadarCanvas Aircraft="{Binding Aircraft}"
+                           CenterLat="{Binding CenterLat}"
+                           CenterLon="{Binding CenterLon}"/>
+      </SplitView.Content>
+    </SplitView>
+  </Grid>
+</UserControl>

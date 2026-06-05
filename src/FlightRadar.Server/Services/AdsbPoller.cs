@@ -14,6 +14,7 @@ public class AdsbPoller : BackgroundService
     private readonly ILogger<AdsbPoller> _log;
     private readonly IHttpClientFactory _httpFactory;
     private readonly AircraftTracker _tracker;
+    private readonly FlightHistoryService _history;
 
     private volatile RadarState? _latestState;
     public RadarState? LatestState => _latestState;
@@ -33,12 +34,13 @@ public class AdsbPoller : BackgroundService
     private static readonly int RangeKm = int.Parse(
         Environment.GetEnvironmentVariable("RADAR_RANGE_KM") ?? "25");
 
-    public AdsbPoller(IHubContext<RadarHub> hub, ILogger<AdsbPoller> log, IHttpClientFactory httpFactory, AircraftTracker tracker)
+    public AdsbPoller(IHubContext<RadarHub> hub, ILogger<AdsbPoller> log, IHttpClientFactory httpFactory, AircraftTracker tracker, FlightHistoryService history)
     {
         _hub = hub;
         _log = log;
         _httpFactory = httpFactory;
         _tracker = tracker;
+        _history = history;
     }
 
     protected override async Task ExecuteAsync(CancellationToken ct)
@@ -88,6 +90,7 @@ public class AdsbPoller : BackgroundService
                     .ToList() ?? [];
 
                 var trackedAircraft = _tracker.Update(freshAircraft);
+                _history.RecordPoll(freshAircraft);
 
                 var state = new RadarState
                 {

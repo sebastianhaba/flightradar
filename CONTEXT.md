@@ -48,6 +48,22 @@ _Avoid_: log, event log, history
 Składany panel boczny po prawej stronie radaru, zawierający Aircraft Table (góra) i sekcję szczegółów (dół). W trybie zwiniętym pokazuje tylko ikony; w trybie rozwiniętym współdzieli przestrzeń z radarem (inline, nie overlay).
 _Avoid_: sidebar, drawer, dock
 
+**History**:
+Tryb aplikacji umożliwiający przeglądanie aircraftów które pojawiły się na radarze w przeszłości. Przełączany przez TabControl na dole ekranu.
+_Avoid_: replay, log, archive
+
+**Live**:
+Tryb aplikacji pokazujący dane na żywo z ADS-B API. Domyślny tryb przy uruchomieniu.
+_Avoid_: realtime, current, online
+
+**Flight Record**:
+Zapisany w bazie LiteDB ciągły pobyt aircrafta na radarze — od pierwszego pojawienia się w Pollu aż do zniknięcia. Zawiera dane metadata (Callsign, Category, Registration) oraz tablicę Track Points.
+_Avoid_: session, entry, document
+
+**Track Point**:
+Pojedyncza próbka pozycji aircrafta w danym momencie, zawierająca timestamp, pozycję (lat/lon), Heading, Altitude i GroundSpeed. Zbierana przy każdym Pollu.
+_Avoid_: sample, dot, position
+
 ## Relationships
 
 - **Home Point** jest środkiem **Radaru**

@@ -25,4 +25,8 @@ ENV RADAR_LON=21.0122
 ENV POLL_INTERVAL_SECONDS=5
 ENV RADAR_RANGE_KM=25
 ENV ADSB_API_BASE_URL=https://opendata.adsb.fi/api/v3
+ENV DATA_DIR=/data
+ENV HISTORY_RETENTION_DAYS=30
+RUN mkdir -p /data
+VOLUME /data
 ENTRYPOINT ["dotnet", "FlightRadar.Server.dll"]

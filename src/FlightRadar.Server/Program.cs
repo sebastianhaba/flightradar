@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<AircraftTracker>();
+builder.Services.AddSingleton<FlightHistoryService>();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<AdsbPoller>();
 builder.Services.AddHostedService(sp => sp.GetRequiredService<AdsbPoller>());
@@ -28,6 +29,13 @@ app.UseStaticFiles(staticOptions);
 
 app.UseWebSockets();
 app.MapHub<RadarHub>("/hubs/radar");
+
+app.MapGet("/api/history", (FlightHistoryService service, DateTime? date) =>
+{
+    var targetDate = date?.Date ?? DateTime.UtcNow.Date;
+    var flights = service.GetFlightsForDate(targetDate);
+    return Results.Ok(flights);
+});
 
 app.MapFallbackToFile("index.html");
 

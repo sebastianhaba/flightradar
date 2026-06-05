@@ -9,4 +9,9 @@ services:
       - RADAR_LON=21.0122
       - POLL_INTERVAL_SECONDS=5
       - RADAR_RANGE_KM=25
+    volumes:
+      - flightradar-data:/data
     restart: unless-stopped
+
+volumes:
+  flightradar-data:

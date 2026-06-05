@@ -48,6 +48,27 @@ public partial class DetailViewModel : ViewModelBase
     public double? DetailDistanceKm => ComputeDb().DistanceKm;
     public double? DetailBearing => ComputeDb().Bearing;
 
+    public void LoadFromHistory(FlightRecord record)
+    {
+        SelectedAircraft = new AircraftData
+        {
+            IcaoHex = record.IcaoHex,
+            Callsign = record.Callsign,
+            Category = record.Category,
+            TypeCode = record.TypeCode,
+            Registration = record.Registration,
+            Description = record.Description,
+            OwnOp = record.OwnOp,
+            Latitude = record.FirstLat,
+            Longitude = record.FirstLon,
+            Altitude = record.FirstAltitude,
+            Heading = record.FirstHeading,
+            GroundSpeed = record.FirstGroundSpeed,
+            FirstSeen = record.FirstSeen,
+            LastSeen = record.LastSeen
+        };
+    }
+
     partial void OnSelectedAircraftChanged(AircraftData? value)
     {
         OnPropertyChanged(nameof(HasSelection));

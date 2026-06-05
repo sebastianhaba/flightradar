@@ -1,0 +1,92 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:FlightRadar.UI.ViewModels"
+             xmlns:views="clr-namespace:FlightRadar.UI.Views"
+             x:Class="FlightRadar.UI.Views.HistoryView"
+             x:DataType="vm:HistoryViewModel">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="32"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0" Background="#1a1a2e" ColumnDefinitions="Auto,Auto,*,Auto" Margin="8,0,8,0">
+      <DatePicker Grid.Column="0" SelectedDate="{Binding SelectedDate}"
+                  VerticalAlignment="Center" FontSize="11"/>
+      <Button Grid.Column="1" Content="Wczytaj" Command="{Binding LoadCommand}"
+              Margin="8,0,0,0" FontSize="11" VerticalAlignment="Center"
+              Background="#2a4a2a" BorderThickness="0"/>
+      <TextBlock Grid.Column="3" Classes="status-muted"
+                 Text="{Binding StatusText}" VerticalAlignment="Center"/>
+    </Grid>
+
+    <Grid Grid.Row="2" ColumnDefinitions="*,2,280">
+      <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+        <ItemsControl ItemsSource="{Binding HourBlocks}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel HorizontalAlignment="Stretch" Grid.IsSharedSizeScope="True"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Expander Header="{Binding Display}" IsExpanded="{Binding IsExpanded}"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,0,0,2">
+                <Expander.Styles>
+                  <Style Selector="Expander /template/ ToggleButton">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                  </Style>
+                  <Style Selector="Expander /template/ ToggleButton TextBlock">
+                    <Setter Property="FontSize" Value="11"/>
+                    <Setter Property="Foreground" Value="#aaa"/>
+                  </Style>
+                </Expander.Styles>
+                <ListBox ItemsSource="{Binding Flights}"
+                         SelectionMode="Single"
+                         SelectionChanged="OnFlightSelectionChanged"
+                         Background="Transparent" BorderThickness="0">
+                  <ListBox.ItemTemplate>
+                    <DataTemplate>
+                      <Grid Margin="4,0,0,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="50" />
+                          <ColumnDefinition Width="80" />
+                          <ColumnDefinition Width="60" />
+                          <ColumnDefinition Width="40" />
+                          <ColumnDefinition Width="60" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Classes="table-data"
+                                   Text="{Binding FirstSeenTime}" Foreground="#555"/>
+                        <TextBlock Grid.Column="1" Foreground="#ddd" FontSize="10"
+                                   Text="{Binding Callsign}"/>
+                        <TextBlock Grid.Column="2" Classes="table-data" HorizontalAlignment="Center"
+                                   Text="{Binding Altitude}"/>
+                        <TextBlock Grid.Column="3" Classes="table-data" HorizontalAlignment="Center"
+                                   Text="{Binding Heading, StringFormat={}{0:F0}}"/>
+                        <TextBlock Grid.Column="4" Classes="table-data" HorizontalAlignment="Center"
+                                   Text="{Binding TypeCode}"/>
+                        <TextBlock Grid.Column="5" Classes="table-data"
+                                   Text="{Binding Description}" Foreground="#888"/>
+                      </Grid>
+                    </DataTemplate>
+                  </ListBox.ItemTemplate>
+                </ListBox>
+              </Expander>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+
+      <GridSplitter Grid.Column="1" Background="#1a1a2e" Width="2"
+                    HorizontalAlignment="Stretch"/>
+
+      <Border Grid.Column="2" Padding="4">
+        <views:DetailView DataContext="{Binding Detail}"/>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

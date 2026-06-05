@@ -17,6 +17,7 @@ public partial class MainViewModel : ViewModelBase
     private ObservableCollection<AircraftData> _aircraft = [];
 
     public SidePanelViewModel SidePanel { get; }
+    public HistoryViewModel History { get; }
 
     [ObservableProperty]
     private int _aircraftCount;
@@ -46,6 +47,7 @@ public partial class MainViewModel : ViewModelBase
     {
         _hub = hub;
         SidePanel = new SidePanelViewModel { Aircraft = Aircraft };
+        History = new HistoryViewModel();
 
         _hub.OnRadarUpdate += state => Dispatcher.UIThread.Post(() => OnRadarUpdate(state));
         _hub.OnConnectionStateChanged += state => Dispatcher.UIThread.Post(() => OnConnectionStateChanged(state));
