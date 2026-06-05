@@ -86,6 +86,7 @@
 
     <!-- Expander -->
     <Style Selector="Expander">
+      <Setter Property="Background" Value="Transparent"/>
       <Setter Property="BorderBrush" Value="#2a5a2a"/>
       <Setter Property="BorderThickness" Value="1"/>
       <Setter Property="CornerRadius" Value="4"/>
@@ -94,8 +95,41 @@
       <Setter Property="BorderBrush" Value="#2a5a2a"/>
       <Setter Property="Background" Value="Transparent"/>
     </Style>
-    <Style Selector="Expander ToggleButton Path">
+    <Style Selector="Expander /template/ ToggleButton:pointerover">
+      <Setter Property="Background" Value="#1a2a1a"/>
+    </Style>
+    <Style Selector="Expander /template/ ToggleButton /template/ Path">
       <Setter Property="Fill" Value="#60CC60"/>
     </Style>
+    <Style Selector="Expander /template/ ToggleButton:pointerover /template/ Path">
+      <Setter Property="Fill" Value="#80FF80"/>
+    </Style>
   </Application.Styles>
+  <Application.Resources>
+    <ControlTheme x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+          </Border>
+        </ControlTemplate>
+      </Setter>
+      <Style Selector="^:pointerover">
+        <Setter Property="Background" Value="#1a2a1a"/>
+      </Style>
+      <Style Selector="^:selected">
+        <Setter Property="Background" Value="#1a3a1a"/>
+        <Setter Property="Foreground" Value="#80FF80"/>
+      </Style>
+      <Style Selector="^:selected:pointerover">
+        <Setter Property="Background" Value="#1a3a1a"/>
+      </Style>
+    </ControlTheme>
+  </Application.Resources>
 </Application>
