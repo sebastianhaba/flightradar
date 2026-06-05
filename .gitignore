@@ -16,3 +16,4 @@ wwwroot/
 ## OS
 .DS_Store
 Thumbs.db
+/src/FlightRadar.Server/data/*.db

@@ -49,7 +49,7 @@ Składany panel boczny po prawej stronie radaru, zawierający Aircraft Table (g�
 _Avoid_: sidebar, drawer, dock
 
 **History**:
-Tryb aplikacji umożliwiający przeglądanie aircraftów które pojawiły się na radarze w przeszłości. Przełączany przez TabControl na dole ekranu.
+Tryb aplikacji umożliwiający przeglądanie aircraftów które pojawiły się na radarze w przeszłości. Przełączany przez przyciski na dole ekranu.
 _Avoid_: replay, log, archive
 
 **Live**:
@@ -63,6 +63,10 @@ _Avoid_: session, entry, document
 **Track Point**:
 Pojedyncza próbka pozycji aircrafta w danym momencie, zawierająca timestamp, pozycję (lat/lon), Heading, Altitude i GroundSpeed. Zbierana przy każdym Pollu.
 _Avoid_: sample, dot, position
+
+**Sweep**:
+Obracająca się linia na Radarze symulująca skanowanie radarowe. Przechodzi przez pozycje Aircraftów, które pojawiają się i stopniowo zanikają (fade). Prędkość obrotu i czas zanikania są konfigurowalne.
+_Avoid_: scan line, beam, rotation
 
 ## Relationships
 

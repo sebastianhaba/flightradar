@@ -113,7 +113,7 @@ public class RadarCanvas : Control
 
     private void OnSweepTick(object? sender, EventArgs e)
     {
-        _sweepAngle = (_sweepAngle + 2) % 360;
+        _sweepAngle = (_sweepAngle + 2.2) % 360;
         InvalidateVisual();
     }
 
@@ -231,7 +231,7 @@ public class RadarCanvas : Control
 
     private void DrawAircraft(DrawingContext ctx, double cx, double cy, double pxPerKm, double radius)
     {
-        const double fadeDegrees = 90;
+        const double fadeDegrees = 370;
 
         foreach (var ac in Aircraft!)
         {
