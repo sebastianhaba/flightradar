@@ -11,12 +11,13 @@
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
 
-    <Grid Grid.Row="0" Background="#1a1a2e" ColumnDefinitions="Auto,Auto,*,Auto" Margin="8,0,8,0">
+    <Grid Grid.Row="0" Background="#0a0a0a" ColumnDefinitions="Auto,Auto,*,Auto" Margin="8,0,8,0">
       <DatePicker Grid.Column="0" SelectedDate="{Binding SelectedDate}"
                   VerticalAlignment="Center" FontSize="11"/>
       <Button Grid.Column="1" Content="Wczytaj" Command="{Binding LoadCommand}"
               Margin="8,0,0,0" FontSize="11" VerticalAlignment="Center"
-              Background="#2a4a2a" BorderThickness="0"/>
+              Background="#1a3a1a" BorderBrush="#2a5a2a" BorderThickness="1"
+              CornerRadius="4" Foreground="#80FF80"/>
       <TextBlock Grid.Column="3" Classes="status-muted"
                  Text="{Binding StatusText}" VerticalAlignment="Center"/>
     </Grid>
@@ -41,7 +42,7 @@
                   </Style>
                   <Style Selector="Expander /template/ ToggleButton TextBlock">
                     <Setter Property="FontSize" Value="11"/>
-                    <Setter Property="Foreground" Value="#aaa"/>
+                    <Setter Property="Foreground" Value="#60CC60"/>
                   </Style>
                 </Expander.Styles>
                 <ListBox ItemsSource="{Binding Flights}"
@@ -60,8 +61,8 @@
                           <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Classes="table-data"
-                                   Text="{Binding FirstSeenTime}" Foreground="#555"/>
-                        <TextBlock Grid.Column="1" Foreground="#ddd" FontSize="10"
+                                   Text="{Binding FirstSeenTime}" Foreground="#2a5a2a"/>
+                        <TextBlock Grid.Column="1" Foreground="#80FF80" FontSize="10"
                                    Text="{Binding Callsign}"/>
                         <TextBlock Grid.Column="2" Classes="table-data" HorizontalAlignment="Center"
                                    Text="{Binding Altitude}"/>
@@ -70,7 +71,7 @@
                         <TextBlock Grid.Column="4" Classes="table-data" HorizontalAlignment="Center"
                                    Text="{Binding TypeCode}"/>
                         <TextBlock Grid.Column="5" Classes="table-data"
-                                   Text="{Binding Description}" Foreground="#888"/>
+                                   Text="{Binding Description}" Foreground="#4a8a4a"/>
                       </Grid>
                     </DataTemplate>
                   </ListBox.ItemTemplate>
@@ -81,10 +82,10 @@
         </ItemsControl>
       </ScrollViewer>
 
-      <GridSplitter Grid.Column="1" Background="#1a1a2e" Width="2"
+      <GridSplitter Grid.Column="1" Background="#1a3a1a" Width="2"
                     HorizontalAlignment="Stretch"/>
 
-      <Border Grid.Column="2" Padding="4">
+      <Border Grid.Column="2" Padding="4" BorderBrush="#2a5a2a" BorderThickness="1" CornerRadius="4" Margin="4">
         <views:DetailView DataContext="{Binding Detail}"/>
       </Border>
     </Grid>

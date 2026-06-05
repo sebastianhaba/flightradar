@@ -60,17 +60,17 @@ public class RadarCanvas : Control
 
     private static readonly IBrush BlackBrush = new SolidColorBrush(Colors.Black);
     private static readonly IBrush WhiteBrush = new SolidColorBrush(Colors.White);
-    private static readonly IBrush RedBrush = new SolidColorBrush(Colors.Red);
+    private static readonly IBrush OutOfRangeBrush = new SolidColorBrush(Color.FromRgb(0, 255, 0));
     private static readonly IBrush RingBrush = new SolidColorBrush(Color.FromRgb(40, 60, 40));
     private static readonly IBrush CrossBrush = new SolidColorBrush(Color.FromRgb(30, 50, 30));
     private static readonly IBrush TickBrush = new SolidColorBrush(Color.FromRgb(45, 70, 45));
     private static readonly IBrush DegBrush = new SolidColorBrush(Color.FromRgb(80, 140, 80));
     private static readonly IBrush RangeTextBrush = new SolidColorBrush(Color.FromRgb(0, 255, 0));
-    private static readonly IBrush AirplaneFill = new SolidColorBrush(Color.FromRgb(255, 80, 80));
-    private static readonly IBrush HeliFill = new SolidColorBrush(Color.FromRgb(255, 200, 0));
-    private static readonly IBrush RotorBrush = new SolidColorBrush(Color.FromRgb(200, 200, 200));
-    private static readonly IBrush CallsignBrush = new SolidColorBrush(Color.FromRgb(200, 200, 200));
-    private static readonly IBrush AltBrush = new SolidColorBrush(Color.FromRgb(150, 150, 150));
+    private static readonly IBrush AirplaneFill = new SolidColorBrush(Color.FromRgb(0, 255, 128));
+    private static readonly IBrush HeliFill = new SolidColorBrush(Color.FromRgb(0, 204, 96));
+    private static readonly IBrush RotorBrush = new SolidColorBrush(Color.FromRgb(74, 138, 74));
+    private static readonly IBrush CallsignBrush = new SolidColorBrush(Color.FromRgb(128, 255, 128));
+    private static readonly IBrush AltBrush = new SolidColorBrush(Color.FromRgb(74, 138, 74));
 
     private static readonly Pen RingPen = new(RingBrush, 1);
     private static readonly Pen CrossPen = new(CrossBrush, 0.5);
@@ -198,7 +198,7 @@ public class RadarCanvas : Control
                 var rimAngle = bearing * Math.PI / 180;
                 var dotX = cx + Math.Sin(rimAngle) * (radius - 8);
                 var dotY = cy - Math.Cos(rimAngle) * (radius - 8);
-                ctx.DrawEllipse(RedBrush, null, new Point(dotX, dotY), 3, 3);
+                ctx.DrawEllipse(OutOfRangeBrush, null, new Point(dotX, dotY), 3, 3);
                 continue;
             }
 

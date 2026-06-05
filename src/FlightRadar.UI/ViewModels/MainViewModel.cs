@@ -4,6 +4,7 @@ using System.Linq;
 using Avalonia.Media;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using FlightRadar.UI.Services;
 using FlightRadar.Shared;
 
@@ -42,6 +43,12 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty]
     private IBrush _statusBrush = new SolidColorBrush(Colors.Orange);
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsHistoryView))]
+    private bool _isLiveView = true;
+
+    public bool IsHistoryView => !IsLiveView;
 
     public MainViewModel(RadarHubClient hub)
     {
@@ -86,4 +93,10 @@ public partial class MainViewModel : ViewModelBase
             : state.StartsWith("Disconnected") || state.StartsWith("Failed") ? new SolidColorBrush(Colors.Red)
             : new SolidColorBrush(Colors.Orange);
     }
+
+    [RelayCommand]
+    private void SwitchToLive() => IsLiveView = true;
+
+    [RelayCommand]
+    private void SwitchToHistory() => IsLiveView = false;
 }

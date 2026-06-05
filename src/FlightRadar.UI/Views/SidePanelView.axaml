@@ -9,7 +9,7 @@
     <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="0,8,0,0">
       <Button Margin="0,0,0,4" Classes="icon-toggle"
               Command="{Binding TogglePanelCommand}">
-        <TextBlock Text="☰" Foreground="#ccc" FontSize="18"
+        <TextBlock Text="☰" Foreground="#60CC60" FontSize="18"
                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
       </Button>
     </StackPanel>
@@ -40,7 +40,7 @@
                   Margin="0,1,0,1">
               <TextBlock Grid.Column="0" Classes="table-data"
                          Text="{Binding FirstSeenLocal, StringFormat={}{0:HH:mm}}"/>
-              <TextBlock Grid.Column="1" Foreground="#ddd" FontSize="10"
+              <TextBlock Grid.Column="1" Foreground="#80FF80" FontSize="10"
                          Text="{Binding Callsign}"/>
               <TextBlock Grid.Column="2" Classes="table-data" HorizontalAlignment="Center"
                          Text="{Binding Altitude}"/>
@@ -51,7 +51,7 @@
         </ListBox.ItemTemplate>
       </ListBox>
 
-      <Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="#1a1a2e" Padding="4">
+      <Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="#2a5a2a" Padding="4">
         <views:DetailView DataContext="{Binding Detail}"/>
       </Border>
     </Grid>

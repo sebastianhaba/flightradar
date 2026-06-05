@@ -7,7 +7,7 @@
       <RowDefinition Height="32"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    <Grid Grid.Row="0" Background="#1a1a2e">
+    <Grid Grid.Row="0" Background="#0a0a0a">
       <Border Width="8" Height="8" CornerRadius="4" Background="{Binding StatusBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8 0 0 0"/>
       <TextBlock Classes="status" Text="{Binding AircraftCountDisplay}" HorizontalAlignment="Center"/>
       <TextBlock Classes="status-muted" Text="{Binding LastUpdateDisplay}" HorizontalAlignment="Right" Margin="0 0 8 0"/>
@@ -17,9 +17,12 @@
                IsPaneOpen="{Binding SidePanel.IsPanelOpen}"
                OpenPaneLength="260"
                CompactPaneLength="48"
-               PanePlacement="Right">
+               PanePlacement="Right"
+               PaneBackground="#000000">
       <SplitView.Pane>
-        <views:SidePanelView DataContext="{Binding SidePanel}"/>
+        <Border BorderBrush="#2a5a2a" BorderThickness="1" CornerRadius="4" Margin="0,4,4,4">
+          <views:SidePanelView DataContext="{Binding SidePanel}"/>
+        </Border>
       </SplitView.Pane>
       <SplitView.Content>
         <views:RadarCanvas Aircraft="{Binding Aircraft}"

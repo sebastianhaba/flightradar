@@ -1,13 +1,49 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:views="clr-namespace:FlightRadar.UI.Views"
+             xmlns:conv="clr-namespace:FlightRadar.UI.Converters"
              x:Class="FlightRadar.UI.Views.MainView">
-  <TabControl TabStripPlacement="Bottom" Padding="0">
-    <TabItem Header="Aktualnie" Padding="0">
-      <views:LiveView/>
-    </TabItem>
-    <TabItem Header="Historia" Padding="0">
-      <views:HistoryView DataContext="{Binding History}"/>
-    </TabItem>
-  </TabControl>
+  <UserControl.Resources>
+    <conv:BoolToBrushConverter x:Key="ActiveBtnBg"
+        TrueBrush="#1a3a1a" FalseBrush="Transparent"/>
+    <conv:BoolToBrushConverter x:Key="ActiveBtnFg"
+        TrueBrush="#80FF80" FalseBrush="#4a8a4a"/>
+    <conv:BoolToBrushConverter x:Key="ActiveBtnBorder"
+        TrueBrush="#3a6a3a" FalseBrush="#2a5a2a"/>
+  </UserControl.Resources>
+
+  <DockPanel LastChildFill="True" Background="#000000">
+    <!-- Bottom view-switch buttons with frame -->
+    <Border DockPanel.Dock="Bottom"
+            BorderBrush="#2a5a2a" BorderThickness="1"
+            CornerRadius="6" Margin="8,0,8,6" Padding="8,4"
+            Background="#0a0a0a">
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+        <Button Content="Aktualnie"
+                Command="{Binding SwitchToLiveCommand}"
+                Background="{Binding IsLiveView, Converter={StaticResource ActiveBtnBg}}"
+                Foreground="{Binding IsLiveView, Converter={StaticResource ActiveBtnFg}}"
+                BorderBrush="{Binding IsLiveView, Converter={StaticResource ActiveBtnBorder}}"
+                BorderThickness="1" CornerRadius="4"
+                FontSize="11" Padding="12,4"/>
+        <Button Content="Historia"
+                Command="{Binding SwitchToHistoryCommand}"
+                Background="{Binding IsHistoryView, Converter={StaticResource ActiveBtnBg}}"
+                Foreground="{Binding IsHistoryView, Converter={StaticResource ActiveBtnFg}}"
+                BorderBrush="{Binding IsHistoryView, Converter={StaticResource ActiveBtnBorder}}"
+                BorderThickness="1" CornerRadius="4"
+                FontSize="11" Padding="12,4"/>
+      </StackPanel>
+    </Border>
+
+    <!-- Content area (last child fills remaining space) -->
+    <Grid>
+      <Panel IsVisible="{Binding IsLiveView}">
+        <views:LiveView/>
+      </Panel>
+      <Panel IsVisible="{Binding IsHistoryView}">
+        <views:HistoryView DataContext="{Binding History}"/>
+      </Panel>
+    </Grid>
+  </DockPanel>
 </UserControl>
