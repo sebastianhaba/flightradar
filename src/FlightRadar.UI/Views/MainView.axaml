@@ -2,11 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:views="clr-namespace:FlightRadar.UI.Views"
              x:Class="FlightRadar.UI.Views.MainView">
-  <TabControl TabStripPlacement="Bottom">
-    <TabItem Header="Aktualnie">
+  <TabControl TabStripPlacement="Bottom" Padding="0">
+    <TabItem Header="Aktualnie" Padding="0">
       <views:LiveView/>
     </TabItem>
-    <TabItem Header="Historia">
+    <TabItem Header="Historia" Padding="0">
       <views:HistoryView DataContext="{Binding History}"/>
     </TabItem>
   </TabControl>
