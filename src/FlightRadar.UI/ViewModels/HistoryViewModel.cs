@@ -50,7 +50,7 @@ public partial class HistoryViewModel : ViewModelBase
 
             var grouped = flights?
                 .GroupBy(f => f.FirstSeen.ToLocalTime().Hour)
-                .OrderBy(g => g.Key)
+                .OrderByDescending(g => g.Key)
                 .Select(g => new HourBlock
                 {
                     Hour = g.Key,
