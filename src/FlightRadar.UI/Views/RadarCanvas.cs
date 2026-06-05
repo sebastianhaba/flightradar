@@ -122,11 +122,7 @@ public class RadarCanvas : Control
     {
         foreach (var ac in Aircraft!)
         {
-            var dx = (ac.Longitude - CenterLon) * 111320 * Math.Cos(CenterLat * Math.PI / 180);
-            var dy = (ac.Latitude - CenterLat) * 111320;
-            var distKm = Math.Sqrt(dx * dx + dy * dy) / 1000;
-            var bearing = Math.Atan2(dx, dy) * 180 / Math.PI;
-            if (bearing < 0) bearing += 360;
+            var (distKm, bearing) = GeoMath.DistanceAndBearing(CenterLat, CenterLon, ac.Latitude, ac.Longitude);
 
             if (distKm > MaxRangeKm)
             {

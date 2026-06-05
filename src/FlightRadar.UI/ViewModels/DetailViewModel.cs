@@ -32,8 +32,8 @@ public partial class DetailViewModel : ViewModelBase
     public string? DetailLastSeen => SelectedAircraft?.LastSeenLocal?.ToString("HH:mm:ss");
     public string? DetailType => SelectedAircraft?.IsHelicopter == true ? "Helicopter" : "Airplane";
 
-    public double? DetailDistanceKm => ComputeDistance();
-    public double? DetailBearing => ComputeBearing();
+    public double? DetailDistanceKm => ComputeDb().DistanceKm;
+    public double? DetailBearing => ComputeDb().Bearing;
 
     partial void OnSelectedAircraftChanged(AircraftData? value)
     {
@@ -57,21 +57,10 @@ public partial class DetailViewModel : ViewModelBase
         OnPropertyChanged(nameof(DetailBearing));
     }
 
-    private double? ComputeDistance()
+    private (double? DistanceKm, double? Bearing) ComputeDb()
     {
-        if (SelectedAircraft is null) return null;
-        var dx = (SelectedAircraft.Longitude - CenterLon) * 111320 * Math.Cos(CenterLat * Math.PI / 180);
-        var dy = (SelectedAircraft.Latitude - CenterLat) * 111320;
-        return Math.Sqrt(dx * dx + dy * dy) / 1000;
-    }
-
-    private double? ComputeBearing()
-    {
-        if (SelectedAircraft is null) return null;
-        var dx = (SelectedAircraft.Longitude - CenterLon) * 111320 * Math.Cos(CenterLat * Math.PI / 180);
-        var dy = (SelectedAircraft.Latitude - CenterLat) * 111320;
-        var bearing = Math.Atan2(dx, dy) * 180 / Math.PI;
-        if (bearing < 0) bearing += 360;
-        return bearing;
+        if (SelectedAircraft is null) return (null, null);
+        var (dist, bearing) = GeoMath.DistanceAndBearing(CenterLat, CenterLon, SelectedAircraft.Latitude, SelectedAircraft.Longitude);
+        return (dist, bearing);
     }
 }
