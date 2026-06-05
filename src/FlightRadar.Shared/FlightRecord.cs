@@ -16,6 +16,7 @@ public class FlightRecord
     public int FirstAltitude { get; set; }
     public double FirstHeading { get; set; }
     public double FirstGroundSpeed { get; set; }
+    public int? FirstAltBaro { get; set; }
 
     public DateTime FirstSeen { get; set; }
     public DateTime LastSeen { get; set; }

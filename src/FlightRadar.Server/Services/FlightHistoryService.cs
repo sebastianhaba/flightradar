@@ -82,6 +82,7 @@ public class FlightHistoryService : IDisposable
                         FirstAltitude = ac.Altitude,
                         FirstHeading = ac.Heading,
                         FirstGroundSpeed = ac.GroundSpeed,
+                        FirstAltBaro = ac.AltBaro,
                         FirstSeen = now,
                         LastSeen = now,
                         TrackPoints =

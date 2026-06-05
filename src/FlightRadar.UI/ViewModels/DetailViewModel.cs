@@ -62,6 +62,7 @@ public partial class DetailViewModel : ViewModelBase
             Latitude = record.FirstLat,
             Longitude = record.FirstLon,
             Altitude = record.FirstAltitude,
+            AltBaro = record.FirstAltBaro,
             Heading = record.FirstHeading,
             GroundSpeed = record.FirstGroundSpeed,
             FirstSeen = record.FirstSeen,
