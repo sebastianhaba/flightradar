@@ -12,7 +12,7 @@ public class AdsbPoller : BackgroundService
 {
     private readonly IHubContext<RadarHub> _hub;
     private readonly ILogger<AdsbPoller> _log;
-    private readonly HttpClient _http;
+    private readonly IHttpClientFactory _httpFactory;
     private readonly AircraftTracker _tracker;
 
     public RadarState? LatestState { get; private set; }
@@ -32,11 +32,11 @@ public class AdsbPoller : BackgroundService
     private static readonly int RangeKm = int.Parse(
         Environment.GetEnvironmentVariable("RADAR_RANGE_KM") ?? "25");
 
-    public AdsbPoller(IHubContext<RadarHub> hub, ILogger<AdsbPoller> log, HttpClient http, AircraftTracker tracker)
+    public AdsbPoller(IHubContext<RadarHub> hub, ILogger<AdsbPoller> log, IHttpClientFactory httpFactory, AircraftTracker tracker)
     {
         _hub = hub;
         _log = log;
-        _http = http;
+        _httpFactory = httpFactory;
         _tracker = tracker;
     }
 
@@ -52,7 +52,8 @@ public class AdsbPoller : BackgroundService
             {
                 var url = FormattableString.Invariant(
                     $"{AdsbBaseUrl}/lat/{RadarLat}/lon/{RadarLon}/dist/{fetchDistNm:F1}");
-                var resp = await _http.GetFromJsonAsync<AdsbApiResponse>(url, ct);
+                using var http = _httpFactory.CreateClient();
+                var resp = await http.GetFromJsonAsync<AdsbApiResponse>(url, ct);
 
                 var freshAircraft = resp?.Aircraft
                     ?.Where(a => a.Lat is not null && a.Lon is not null
