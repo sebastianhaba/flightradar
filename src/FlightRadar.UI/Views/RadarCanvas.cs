@@ -113,7 +113,7 @@ public class RadarCanvas : Control
 
     private void OnSweepTick(object? sender, EventArgs e)
     {
-        _sweepAngle = (_sweepAngle + 1.5) % 360;
+        _sweepAngle = (_sweepAngle + 2) % 360;
         InvalidateVisual();
     }
 
@@ -231,16 +231,24 @@ public class RadarCanvas : Control
 
     private void DrawAircraft(DrawingContext ctx, double cx, double cy, double pxPerKm, double radius)
     {
+        const double fadeDegrees = 90;
+
         foreach (var ac in Aircraft!)
         {
             var (distKm, bearing) = GeoMath.DistanceAndBearing(CenterLat, CenterLon, ac.Latitude, ac.Longitude);
+
+            var sweepDist = (_sweepAngle - bearing + 360) % 360;
+            if (sweepDist > fadeDegrees) continue;
+            var opacity = 1.0 - sweepDist / fadeDegrees;
+            opacity *= opacity;
 
             if (distKm > MaxRangeKm)
             {
                 var rimAngle = bearing * Math.PI / 180;
                 var dotX = cx + Math.Sin(rimAngle) * (radius - 8);
                 var dotY = cy - Math.Cos(rimAngle) * (radius - 8);
-                ctx.DrawEllipse(OutOfRangeBrush, null, new Point(dotX, dotY), 3, 3);
+                using (ctx.PushOpacity(opacity))
+                    ctx.DrawEllipse(OutOfRangeBrush, null, new Point(dotX, dotY), 3, 3);
                 continue;
             }
 
@@ -249,8 +257,11 @@ public class RadarCanvas : Control
             var x = cx + Math.Sin(angleRad) * px;
             var y = cy - Math.Cos(angleRad) * px;
 
-            DrawAircraftIcon(ctx, x, y, ac.Heading, ac.IsHelicopter);
-            DrawAircraftLabel(ctx, x, y, ac);
+            using (ctx.PushOpacity(opacity))
+            {
+                DrawAircraftIcon(ctx, x, y, ac.Heading, ac.IsHelicopter);
+                DrawAircraftLabel(ctx, x, y, ac);
+            }
         }
     }
 
