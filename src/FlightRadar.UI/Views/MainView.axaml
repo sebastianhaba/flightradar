@@ -10,9 +10,9 @@
     <Border Grid.Row="0" Background="#1a1a2e">
       <StackPanel Orientation="Horizontal" Margin="10,0">
         <Border Width="8" Height="8" CornerRadius="4" Background="{Binding StatusBrush}" VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding ConnectionStatus}" Foreground="#aaa" FontSize="11" Margin="6,0,10,0" VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding AircraftCountDisplay}" Foreground="#aaa" FontSize="11" VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding LastUpdateDisplay}" Foreground="#666" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <TextBlock Classes="status" Text="{Binding ConnectionStatus}" Margin="6,0,10,0"/>
+        <TextBlock Classes="status" Text="{Binding AircraftCountDisplay}"/>
+        <TextBlock Classes="status-muted" Text="{Binding LastUpdateDisplay}"/>
       </StackPanel>
     </Border>
     <SplitView Grid.Row="1"
