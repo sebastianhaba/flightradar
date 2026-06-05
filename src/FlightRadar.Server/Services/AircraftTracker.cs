@@ -11,14 +11,14 @@ public class AircraftTracker
     public List<AircraftData> Update(List<AircraftData> freshList)
     {
         var now = DateTime.UtcNow;
-        var freshIcaos = new HashSet<string>();
+        var staleThreshold = now.AddSeconds(-StaleTimeoutSeconds);
+        var toRemove = new List<string>();
 
+        // Phase 1: mutations only
         lock (_lock)
         {
             foreach (var ac in freshList)
             {
-                freshIcaos.Add(ac.IcaoHex);
-
                 if (_aircraft.TryGetValue(ac.IcaoHex, out var existing))
                 {
                     existing.Latitude = ac.Latitude;
@@ -44,10 +44,6 @@ public class AircraftTracker
                 }
             }
 
-            var staleThreshold = now.AddSeconds(-StaleTimeoutSeconds);
-            var toRemove = new List<string>();
-            var result = new List<AircraftData>();
-
             foreach (var kvp in _aircraft)
             {
                 if (kvp.Value.LastSeen < staleThreshold)
@@ -55,21 +51,18 @@ public class AircraftTracker
                     if (kvp.Value.IsStale)
                         toRemove.Add(kvp.Key);
                     else
-                    {
                         kvp.Value.IsStale = true;
-                        result.Add(kvp.Value);
-                    }
-                }
-                else
-                {
-                    result.Add(kvp.Value);
                 }
             }
 
             foreach (var icao in toRemove)
                 _aircraft.Remove(icao);
+        }
 
-            return result;
+        // Phase 2: quick snapshot — allocation happens inside but it's just ToList()
+        lock (_lock)
+        {
+            return _aircraft.Values.ToList();
         }
     }
 }
