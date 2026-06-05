@@ -47,14 +47,7 @@ public partial class MainViewModel : ViewModelBase
         SidePanel = new SidePanelViewModel { Aircraft = Aircraft };
 
         _hub.OnRadarUpdate += state => Dispatcher.UIThread.Post(() => OnRadarUpdate(state));
-
-        _hub.OnConnectionStateChanged += state =>
-        {
-            ConnectionStatus = state;
-            StatusBrush = state.StartsWith("Connected") ? new SolidColorBrush(Colors.LimeGreen)
-                : state.StartsWith("Disconnected") || state.StartsWith("Failed") ? new SolidColorBrush(Colors.Red)
-                : new SolidColorBrush(Colors.Orange);
-        };
+        _hub.OnConnectionStateChanged += state => Dispatcher.UIThread.Post(() => OnConnectionStateChanged(state));
     }
 
     private void OnRadarUpdate(RadarState state)
@@ -81,5 +74,13 @@ public partial class MainViewModel : ViewModelBase
 
         var stillSelected = Aircraft.FirstOrDefault(a => a.IcaoHex == selectedIcao);
         SidePanel.SelectedAircraft = stillSelected;
+    }
+
+    private void OnConnectionStateChanged(string state)
+    {
+        ConnectionStatus = state;
+        StatusBrush = state.StartsWith("Connected") ? new SolidColorBrush(Colors.LimeGreen)
+            : state.StartsWith("Disconnected") || state.StartsWith("Failed") ? new SolidColorBrush(Colors.Red)
+            : new SolidColorBrush(Colors.Orange);
     }
 }
