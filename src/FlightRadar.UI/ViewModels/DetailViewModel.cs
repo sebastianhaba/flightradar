@@ -26,6 +26,7 @@ public partial class DetailViewModel : ViewModelBase
     public int? DetailAltitude => SelectedAircraft?.Altitude;
     public int? DetailAltBaro => SelectedAircraft?.AltBaro;
     public double? DetailGroundSpeed => SelectedAircraft?.GroundSpeed;
+    public double? DetailGroundSpeedKmh => SelectedAircraft?.GroundSpeed * 1.852;
     public double? DetailHeading => SelectedAircraft?.Heading;
     public string? DetailCategory => SelectedAircraft?.Category;
     public string? DetailSquawk => SelectedAircraft?.Squawk;
@@ -57,6 +58,7 @@ public partial class DetailViewModel : ViewModelBase
         OnPropertyChanged(nameof(DetailAltitude));
         OnPropertyChanged(nameof(DetailAltBaro));
         OnPropertyChanged(nameof(DetailGroundSpeed));
+        OnPropertyChanged(nameof(DetailGroundSpeedKmh));
         OnPropertyChanged(nameof(DetailHeading));
         OnPropertyChanged(nameof(DetailCategory));
         OnPropertyChanged(nameof(DetailSquawk));

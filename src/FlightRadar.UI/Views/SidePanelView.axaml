@@ -95,7 +95,10 @@
                     <TextBlock Grid.Row="12" Grid.Column="0" Classes="detail-label" Text="Wys. baro."/>
                     <TextBlock Grid.Row="12" Grid.Column="1" Classes="detail-value" Text="{Binding DetailAltBaro, StringFormat={}{0} ft}"/>
                     <TextBlock Grid.Row="13" Grid.Column="0" Classes="detail-label" Text="Prędkość"/>
-                    <TextBlock Grid.Row="13" Grid.Column="1" Classes="detail-value" Text="{Binding DetailGroundSpeed, StringFormat={}{0:F0} węz}"/>
+                    <StackPanel Grid.Row="13" Grid.Column="1" Margin="4,0,0,0">
+                      <TextBlock Classes="detail-value" Margin="0" Text="{Binding DetailGroundSpeed, StringFormat={}{0:F0} węz}"/>
+                      <TextBlock Classes="detail-value" Margin="0" Text="{Binding DetailGroundSpeedKmh, StringFormat={}{0:F0} km/h}" Foreground="#888"/>
+                    </StackPanel>
                     <TextBlock Grid.Row="14" Grid.Column="0" Classes="detail-label" Text="Kurs"/>
                     <TextBlock Grid.Row="14" Grid.Column="1" Classes="detail-value" Text="{Binding DetailHeading, StringFormat={}{0:F0}°}"/>
                     <TextBlock Grid.Row="15" Grid.Column="0" Classes="detail-label" Text="Squawk"/>
