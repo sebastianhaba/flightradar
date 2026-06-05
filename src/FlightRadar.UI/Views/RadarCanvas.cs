@@ -5,6 +5,7 @@ using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Threading;
 using FlightRadar.Shared;
 
 namespace FlightRadar.UI.Views;
@@ -77,6 +78,45 @@ public class RadarCanvas : Control
     private static readonly Pen TickPen = new(TickBrush, 1);
     private static readonly Pen RotorPen = new(RotorBrush, 1);
 
+    private static readonly IBrush SweepBrush = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+    private static readonly Pen SweepPen = new(SweepBrush, 1.5);
+    private static readonly IBrush[] TrailBrushes = InitTrailBrushes();
+
+    private static IBrush[] InitTrailBrushes()
+    {
+        var brushes = new IBrush[10];
+        for (int i = 0; i < 10; i++)
+        {
+            var alpha = (byte)(120 - i * 11);
+            brushes[i] = new SolidColorBrush(Color.FromArgb(alpha, 0, 200, 0));
+        }
+        return brushes;
+    }
+
+    private double _sweepAngle;
+    private DispatcherTimer? _sweepTimer;
+
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+        _sweepTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(16) };
+        _sweepTimer.Tick += OnSweepTick;
+        _sweepTimer.Start();
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        _sweepTimer?.Stop();
+        _sweepTimer = null;
+        base.OnDetachedFromVisualTree(e);
+    }
+
+    private void OnSweepTick(object? sender, EventArgs e)
+    {
+        _sweepAngle = (_sweepAngle + 1.5) % 360;
+        InvalidateVisual();
+    }
+
     private static readonly FormattedText LabelN = new("N", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
     private static readonly FormattedText LabelS = new("S", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
     private static readonly FormattedText LabelW = new("W", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
@@ -117,6 +157,8 @@ public class RadarCanvas : Control
 
         if (Aircraft is not null)
             DrawAircraft(ctx, cx, cy, pxPerKm, radius);
+
+        DrawSweep(ctx, cx, cy, radius);
     }
 
     private static void DrawBackground(DrawingContext ctx, double cx, double cy, double radius)
@@ -256,5 +298,40 @@ public class RadarCanvas : Control
 
         ctx.DrawText(cs, new Point(x - cs.Width / 2, y + 10));
         ctx.DrawText(alt, new Point(x - alt.Width / 2, y + 22));
+    }
+
+    private void DrawSweep(DrawingContext ctx, double cx, double cy, double radius)
+    {
+        const int trailDegrees = 60;
+        const int trailSteps = 10;
+        const int arcPoints = 8;
+
+        for (int i = 0; i < trailSteps; i++)
+        {
+            var startDeg = _sweepAngle - (i + 1) * (trailDegrees / (double)trailSteps);
+            var endDeg = _sweepAngle - i * (trailDegrees / (double)trailSteps);
+            var startRad = startDeg * Math.PI / 180;
+            var endRad = endDeg * Math.PI / 180;
+
+            var geo = new StreamGeometry();
+            using (var sgc = geo.Open())
+            {
+                sgc.BeginFigure(new Point(cx, cy), true);
+                for (int j = 0; j <= arcPoints; j++)
+                {
+                    var angle = startRad + (endRad - startRad) * (j / (double)arcPoints);
+                    var x = cx + Math.Sin(angle) * radius;
+                    var y = cy - Math.Cos(angle) * radius;
+                    sgc.LineTo(new Point(x, y));
+                }
+                sgc.EndFigure(true);
+            }
+            ctx.DrawGeometry(TrailBrushes[i], null, geo);
+        }
+
+        var sweepRad = _sweepAngle * Math.PI / 180;
+        var sweepX = cx + Math.Sin(sweepRad) * radius;
+        var sweepY = cy - Math.Cos(sweepRad) * radius;
+        ctx.DrawLine(SweepPen, new Point(cx, cy), new Point(sweepX, sweepY));
     }
 }
