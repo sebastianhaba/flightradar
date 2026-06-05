@@ -24,7 +24,7 @@
       </Grid>
     </Border>
 
-    <Grid Grid.Row="2" ColumnDefinitions="*,2,280">
+    <Grid Grid.Row="2" ColumnDefinitions="*,2,280" Margin="8,4,4,0">
       <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
         <ItemsControl ItemsSource="{Binding HourBlocks}">
           <ItemsControl.ItemsPanel>
@@ -45,6 +45,9 @@
                   <Style Selector="Expander /template/ ToggleButton TextBlock">
                     <Setter Property="FontSize" Value="11"/>
                     <Setter Property="Foreground" Value="#60CC60"/>
+                  </Style>
+                  <Style Selector="Expander /template/ ToggleButton Path">
+                    <Setter Property="Fill" Value="#60CC60"/>
                   </Style>
                 </Expander.Styles>
                 <ListBox ItemsSource="{Binding Flights}"
@@ -84,7 +87,7 @@
         </ItemsControl>
       </ScrollViewer>
 
-      <GridSplitter Grid.Column="1" Background="#1a3a1a" Width="2"
+      <GridSplitter Grid.Column="1" Background="#0a0a0a" Width="2"
                     HorizontalAlignment="Stretch"/>
 
       <Border Grid.Column="2" Padding="4" BorderBrush="#2a5a2a" BorderThickness="1" CornerRadius="4" Margin="4">
