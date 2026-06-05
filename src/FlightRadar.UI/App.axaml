@@ -66,5 +66,22 @@
       <Setter Property="BorderThickness" Value="0"/>
       <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
     </Style>
+
+    <!-- DatePicker -->
+    <Style Selector="DatePicker /template/ TextBox">
+      <Setter Property="BorderBrush" Value="#2a5a2a"/>
+      <Setter Property="Background" Value="#0a0a0a"/>
+    </Style>
+
+    <!-- Expander -->
+    <Style Selector="Expander">
+      <Setter Property="BorderBrush" Value="#2a5a2a"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="4"/>
+    </Style>
+    <Style Selector="Expander /template/ ToggleButton">
+      <Setter Property="BorderBrush" Value="#2a5a2a"/>
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
   </Application.Styles>
 </Application>

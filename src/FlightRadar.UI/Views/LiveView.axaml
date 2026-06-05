@@ -7,11 +7,13 @@
       <RowDefinition Height="32"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    <Grid Grid.Row="0" Background="#0a0a0a">
-      <Border Width="8" Height="8" CornerRadius="4" Background="{Binding StatusBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8 0 0 0"/>
-      <TextBlock Classes="status" Text="{Binding AircraftCountDisplay}" HorizontalAlignment="Center"/>
-      <TextBlock Classes="status-muted" Text="{Binding LastUpdateDisplay}" HorizontalAlignment="Right" Margin="0 0 8 0"/>
-    </Grid>
+    <Border Grid.Row="0" BorderBrush="#2a5a2a" BorderThickness="1" CornerRadius="4" Margin="8,4,4,0" Background="#0a0a0a" Padding="0">
+      <Grid>
+        <Border Width="8" Height="8" CornerRadius="4" Background="{Binding StatusBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8 0 0 0"/>
+        <TextBlock Classes="status" Text="{Binding AircraftCountDisplay}" HorizontalAlignment="Center"/>
+        <TextBlock Classes="status-muted" Text="{Binding LastUpdateDisplay}" HorizontalAlignment="Right" Margin="0 0 8 0"/>
+      </Grid>
+    </Border>
     <SplitView Grid.Row="1"
                DisplayMode="CompactInline"
                IsPaneOpen="{Binding SidePanel.IsPanelOpen}"

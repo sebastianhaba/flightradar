@@ -59,7 +59,7 @@ public class RadarCanvas : Control
     private const double MaxRangeKm = 25;
 
     private static readonly IBrush BlackBrush = new SolidColorBrush(Colors.Black);
-    private static readonly IBrush WhiteBrush = new SolidColorBrush(Colors.White);
+    private static readonly IBrush WhiteBrush = new SolidColorBrush(Color.FromRgb(128, 255, 128));
     private static readonly IBrush OutOfRangeBrush = new SolidColorBrush(Color.FromRgb(0, 255, 0));
     private static readonly IBrush RingBrush = new SolidColorBrush(Color.FromRgb(40, 60, 40));
     private static readonly IBrush CrossBrush = new SolidColorBrush(Color.FromRgb(30, 50, 30));

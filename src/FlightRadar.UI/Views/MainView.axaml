@@ -16,7 +16,7 @@
     <!-- Bottom view-switch buttons with frame -->
     <Border DockPanel.Dock="Bottom"
             BorderBrush="#2a5a2a" BorderThickness="1"
-            CornerRadius="6" Margin="8,0,8,6" Padding="8,4"
+            CornerRadius="6" Margin="8,0,4,6" Padding="8,4"
             Background="#0a0a0a">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
         <Button Content="Aktualnie"
