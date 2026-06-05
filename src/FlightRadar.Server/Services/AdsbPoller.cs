@@ -15,7 +15,8 @@ public class AdsbPoller : BackgroundService
     private readonly IHttpClientFactory _httpFactory;
     private readonly AircraftTracker _tracker;
 
-    public RadarState? LatestState { get; private set; }
+    private volatile RadarState? _latestState;
+    public RadarState? LatestState => _latestState;
 
     private static readonly string AdsbBaseUrl = Environment.GetEnvironmentVariable("ADSB_API_BASE_URL")
         ?? "https://opendata.adsb.fi/api/v3";
@@ -93,7 +94,7 @@ public class AdsbPoller : BackgroundService
                     CenterLon = RadarLon
                 };
 
-                LatestState = state;
+                _latestState = state;
 
                 await _hub.Clients.All.SendAsync("RadarUpdate", state, ct);
             }
