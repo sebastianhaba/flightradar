@@ -21,14 +21,14 @@
         <RowDefinition Height="230"/>
       </Grid.RowDefinitions>
 
-      <TextBlock Grid.Row="0" Text="Aircraft Table" Foreground="#ccc" FontSize="12" Margin="0,4,0,4"/>
+      <TextBlock Grid.Row="0" Text="Lista statków" Foreground="#ccc" FontSize="12" Margin="0,4,0,4"/>
 
       <!-- Column headers -->
       <Grid Grid.Row="0" ColumnDefinitions="50,*,45,35" Margin="0,20,0,0">
-        <TextBlock Grid.Column="0" Text="First" Foreground="#666" FontSize="10"/>
-        <TextBlock Grid.Column="1" Text="Callsign" Foreground="#666" FontSize="10"/>
+        <TextBlock Grid.Column="0" Text="Czas" Foreground="#666" FontSize="10"/>
+        <TextBlock Grid.Column="1" Text="Znak" Foreground="#666" FontSize="10"/>
         <TextBlock Grid.Column="2" Text="Alt" Foreground="#666" FontSize="10"/>
-        <TextBlock Grid.Column="3" Text="Hdg" Foreground="#666" FontSize="10"/>
+        <TextBlock Grid.Column="3" Text="Kurs" Foreground="#666" FontSize="10"/>
       </Grid>
 
       <!-- Aircraft list -->
@@ -57,7 +57,7 @@
           <ContentControl.DataTemplates>
             <DataTemplate DataType="vm:DetailViewModel">
               <Grid>
-                <TextBlock Text="Click an aircraft in the table above to see details"
+                <TextBlock Text="Kliknij statek w tabeli aby zobaczyć szczegóły"
                            Foreground="#555" FontSize="11" TextWrapping="Wrap"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            IsVisible="{Binding !HasSelection}"/>
@@ -65,33 +65,33 @@
                 <ScrollViewer IsVisible="{Binding HasSelection}" VerticalScrollBarVisibility="Auto">
                   <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                         ColumnDefinitions="80,*" Margin="0,4,0,0">
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Callsign" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Znak" Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding DetailCallsign}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="ICAO" Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DetailIcaoHex}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Type" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Typ" Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding DetailType}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Lat" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Szer." Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding DetailLatitude, StringFormat={}{0:F4}}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Lon" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Dł." Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding DetailLongitude, StringFormat={}{0:F4}}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Dist" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Odległość" Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding DetailDistanceKm, StringFormat={}{0:F1} km}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Bearing" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Kierunek" Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding DetailBearing, StringFormat={}{0:F0}°}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Alt" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Wys. geom." Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding DetailAltitude, StringFormat={}{0} ft}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Alt Baro" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Wys. baro." Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding DetailAltBaro, StringFormat={}{0} ft}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Speed" Foreground="#666" FontSize="10"/>
-                    <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding DetailGroundSpeed, StringFormat={}{0:F0} kn}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="10" Grid.Column="0" Text="Heading" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Prędkość" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding DetailGroundSpeed, StringFormat={}{0:F0} węz}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
+                    <TextBlock Grid.Row="10" Grid.Column="0" Text="Kurs" Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="10" Grid.Column="1" Text="{Binding DetailHeading, StringFormat={}{0:F0}°}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
                     <TextBlock Grid.Row="11" Grid.Column="0" Text="Squawk" Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="11" Grid.Column="1" Text="{Binding DetailSquawk}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="12" Grid.Column="0" Text="First Seen" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="12" Grid.Column="0" Text="Pierwszy raz" Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="12" Grid.Column="1" Text="{Binding DetailFirstSeen}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
-                    <TextBlock Grid.Row="13" Grid.Column="0" Text="Last Seen" Foreground="#666" FontSize="10"/>
+                    <TextBlock Grid.Row="13" Grid.Column="0" Text="Ostatni raz" Foreground="#666" FontSize="10"/>
                     <TextBlock Grid.Row="13" Grid.Column="1" Text="{Binding DetailLastSeen}" Foreground="#ccc" FontSize="10" Margin="4,0,0,0"/>
                   </Grid>
                 </ScrollViewer>

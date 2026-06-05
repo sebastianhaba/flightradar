@@ -30,7 +30,7 @@ public partial class DetailViewModel : ViewModelBase
     public double? DetailSeenPos => SelectedAircraft?.SeenPos;
     public string? DetailFirstSeen => SelectedAircraft?.FirstSeenLocal?.ToString("HH:mm:ss");
     public string? DetailLastSeen => SelectedAircraft?.LastSeenLocal?.ToString("HH:mm:ss");
-    public string? DetailType => SelectedAircraft?.IsHelicopter == true ? "Helicopter" : "Airplane";
+    public string? DetailType => SelectedAircraft?.IsHelicopter == true ? "Śmigłowiec" : "Samolot";
 
     public double? DetailDistanceKm => ComputeDb().DistanceKm;
     public double? DetailBearing => ComputeDb().Bearing;

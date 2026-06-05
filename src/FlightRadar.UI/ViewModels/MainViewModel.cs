@@ -27,7 +27,7 @@ public partial class MainViewModel : ViewModelBase
     private string _lastUpdate = "";
 
     [ObservableProperty]
-    private string _aircraftCountDisplay = "0 aircraft";
+    private string _aircraftCountDisplay = "Statki powietrzne: 0";
 
     [ObservableProperty]
     private string _lastUpdateDisplay = "";
@@ -64,9 +64,9 @@ public partial class MainViewModel : ViewModelBase
 
         var count = Aircraft.Count;
         AircraftCount = count;
-        AircraftCountDisplay = $"{count} aircraft";
+        AircraftCountDisplay = $"Statki powietrzne: {count}";
         LastUpdate = state.Timestamp.ToLocalTime().ToString("HH:mm:ss");
-        LastUpdateDisplay = $"Last: {LastUpdate}";
+        LastUpdateDisplay = $"Ostatnia: {LastUpdate}";
         CenterLat = state.CenterLat;
         CenterLon = state.CenterLon;
 
