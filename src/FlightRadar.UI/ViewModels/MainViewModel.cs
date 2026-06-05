@@ -13,7 +13,8 @@ public partial class MainViewModel : ViewModelBase
 {
     private readonly RadarHubClient _hub;
 
-    public ObservableCollection<AircraftData> Aircraft { get; } = [];
+    [ObservableProperty]
+    private ObservableCollection<AircraftData> _aircraft = [];
 
     public SidePanelViewModel SidePanel { get; }
 
@@ -58,11 +59,11 @@ public partial class MainViewModel : ViewModelBase
 
         var selectedIcao = SidePanel.SelectedAircraft?.IcaoHex;
 
-        Aircraft.Clear();
-        foreach (var ac in sorted)
-            Aircraft.Add(ac);
+        var fresh = new ObservableCollection<AircraftData>(sorted);
+        SidePanel.Aircraft = fresh;
+        Aircraft = fresh;
 
-        var count = Aircraft.Count;
+        var count = fresh.Count;
         AircraftCount = count;
         AircraftCountDisplay = $"Statki powietrzne: {count}";
         LastUpdate = state.Timestamp.ToLocalTime().ToString("HH:mm:ss");
@@ -72,7 +73,7 @@ public partial class MainViewModel : ViewModelBase
 
         SidePanel.UpdateDetailCenter(CenterLat, CenterLon);
 
-        var stillSelected = Aircraft.FirstOrDefault(a => a.IcaoHex == selectedIcao);
+        var stillSelected = fresh.FirstOrDefault(a => a.IcaoHex == selectedIcao);
         SidePanel.SelectedAircraft = stillSelected;
     }
 
