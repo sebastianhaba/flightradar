@@ -6,7 +6,7 @@ Okrągły radar lotniczy na żywo pokazujący statki powietrzne w okolicy twojeg
 
 ## Działanie
 
-Backend cyklicznie polluje publiczne API [adsb.fi](https://opendata.adsb.fi/) i pushuje dane do klienta przez SignalR. `AircraftTracker` śledzi historię aircraftów między pollami — timestampy pierwszego/ostatniego pojawienia oraz 30-sekundowy ghost dla aircraftów które zniknęły z zasięgu API.
+Backend cyklicznie polluje publiczne API [adsb.fi](https://opendata.adsb.fi/) i pushuje dane do klienta przez SignalR. `AircraftTracker` śledzi historię statków powietrznych między pollami — timestampy pierwszego/ostatniego pojawienia oraz 30-sekundowy ghost dla aircraftów które zniknęły z zasięgu API.
 
 Radar rysowany jest na Canvas z użyciem Avalonia DrawingContext — koncentryczne pierścienie co 5 km, maksymalny zasięg 25 km. Samoloty poza zasięgiem (ale w zasięgu fetcha API) pokazywane są jako zielone kropki na krawędzi radaru.
 
@@ -14,11 +14,11 @@ Radar rysowany jest na Canvas z użyciem Avalonia DrawingContext — koncentrycz
 
 **Side Panel** — składany panel boczny (SplitView CompactInline, prawa strona) z Aircraft Table (listą wszystkich aircraftów) i sekcją szczegółów po kliknięciu wiersza. W trybie zwiniętym pokazuje tylko ikonę (48px), po rozwinięciu zajmuje 260px wypychając radar.
 
-**Ekran szczegółów** — po kliknięciu aircrafta w Side Panel, dolna sekcja pokazuje pełne informacje: callsign, ICAO, rejestrację, operatora, typ, pozycję, odległość, prędkość, kurs.
+**Ekran szczegółów** — po kliknięciu statka powietrznego w Side Panel, dolna sekcja pokazuje pełne informacje: callsign, ICAO, rejestrację, operatora, typ, pozycję, odległość, prędkość, kurs.
 
 ![Szczegóły aircrafta](./docs/2.jpg)
 
-**Historia** — tryb przeglądania zapisanych Flight Records. Lista godzinowa z expandermi,每个 wiersz pokazuje czas, callsign, altitude, heading, typ i opis. Po wybraniu rekordu szczegóły pojawiają się w panelu bocznym.
+**Historia** — tryb przeglądania zapisanych Flight Records. Lista godzinowa z expandermi, wiersz pokazuje czas, callsign, altitude, heading, typ i opis. Po wybraniu rekordu szczegóły pojawiają się w panelu bocznym.
 
 ![Historia lotów](./docs/3.jpg)
 
