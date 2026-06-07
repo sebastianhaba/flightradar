@@ -1,4 +1,5 @@
 using Avalonia;
+using FlightRadar.UI;
 
 internal class Program
 {
@@ -6,8 +7,11 @@ internal class Program
         .StartWithClassicDesktopLifetime(args);
 
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<FlightRadar.UI.App>()
+    {
+        App.PingPlayer = new FlightRadar.UI.Desktop.DesktopPingPlayer();
+        return AppBuilder.Configure<FlightRadar.UI.App>()
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace();
+    }
 }

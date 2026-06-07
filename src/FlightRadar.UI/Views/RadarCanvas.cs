@@ -94,6 +94,7 @@ public class RadarCanvas : Control
     }
 
     private double _sweepAngle;
+    public event Action? PingRequested;
     private DispatcherTimer? _sweepTimer;
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
@@ -113,7 +114,25 @@ public class RadarCanvas : Control
 
     private void OnSweepTick(object? sender, EventArgs e)
     {
+        var prevAngle = _sweepAngle;
         _sweepAngle = (_sweepAngle + 2.2) % 360;
+
+        if (PingRequested is not null && Aircraft is not null)
+        {
+            foreach (var ac in Aircraft)
+            {
+                var (_, bearing) = GeoMath.DistanceAndBearing(CenterLat, CenterLon, ac.Latitude, ac.Longitude);
+                var prevDist = (prevAngle - bearing + 360) % 360;
+                var currDist = (_sweepAngle - bearing + 360) % 360;
+
+                if (prevDist > 358 && currDist < 2.2)
+                {
+                    PingRequested.Invoke();
+                    break;
+                }
+            }
+        }
+
         InvalidateVisual();
     }
 

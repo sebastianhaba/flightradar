@@ -10,6 +10,9 @@ namespace FlightRadar.UI;
 
 public partial class App : Application
 {
+    public static IPingPlayer? PingPlayer { get; set; }
+    public static bool InitialMuted { get; set; } = true;
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -17,8 +20,11 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var player = PingPlayer ?? new NullPingPlayer();
+        var pingService = new PingService(player);
         var hub = new RadarHubClient();
-        var vm = new MainViewModel(hub);
+        var vm = new MainViewModel(hub, pingService) { IsMuted = InitialMuted };
+        pingService.IsMuted = InitialMuted;
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -38,4 +44,9 @@ public partial class App : Application
         _ = hub.StartAsync();
         base.OnFrameworkInitializationCompleted();
     }
+}
+
+public class NullPingPlayer : IPingPlayer
+{
+    public void Play(byte[] wavData) { }
 }

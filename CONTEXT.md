@@ -64,6 +64,22 @@ _Avoid_: session, entry, document
 Pojedyncza próbka pozycji aircrafta w danym momencie, zawierająca timestamp, pozycję (lat/lon), Heading, Altitude i GroundSpeed. Zbierana przy każdym Pollu.
 _Avoid_: sample, dot, position
 
+**Ping**:
+Krótki dźwięk (sinus 1000Hz, 0.25s) generowany przez C# jako WAV i odtwarzany platformowo. Pojawia się gdy Sweep przechodzi przez pozycję Aircrafta na Radarze. Jeśli w ciągu 100ms następuje kolejne przejście, jest wyciszane (debouncing).
+_Avoid_: beep, blip, alert
+
+**Sweep**:
+Obracająca się linia na Radarze symulująca skanowanie radarowe. Przechodzi przez pozycje Aircraftów, które pojawiają się i stopniowo zanikają (fade). Ping jest odtwarzany gdy Sweep osiąga bearing Aircrafta.
+_Avoid_: scan line, beam, rotation
+
+**Zone**:
+Jedna z czterech 90-stopniowych stref dookoła Home Point, wyznaczonych przez kardynalne kierunki: N (315°–45°), E (45°–135°), S (135°–225°), W (225°–315°). Aircraft w strefie wywołuje Ping gdy przy każdym Pollu w którejś ze stref znajduje się Aircraft.
+_Avoid_: quadrant, sector, region
+
+**Mute**:
+Stan wyciszenia wszystkich Pingów. Domyślnie włączony (wyciszony), przełączany ikoną na Status Barze. Stan trwały dla WASM (localStorage), nietrwały dla Desktopa.
+_Avoid_: silence, audio toggle
+
 **Sweep**:
 Obracająca się linia na Radarze symulująca skanowanie radarowe. Przechodzi przez pozycje Aircraftów, które pojawiają się i stopniowo zanikają (fade). Prędkość obrotu i czas zanikania są konfigurowalne.
 _Avoid_: scan line, beam, rotation

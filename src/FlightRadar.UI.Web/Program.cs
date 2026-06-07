@@ -2,6 +2,7 @@ using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Versioning;
 using Avalonia;
 using Avalonia.Browser;
+using FlightRadar.UI;
 using FlightRadar.UI.Configuration;
 using FlightRadar.UI.Services;
 
@@ -16,6 +17,11 @@ internal partial class Program
         RadarHubClient.Log = Browser.ConsoleLog;
         RadarHubClient.OpenUrl = Browser.OpenUrl;
         Browser.ConsoleLog($"[FlightRadar] BaseUrl={AppOptions.BaseUrl}");
+
+        App.PingPlayer = new FlightRadar.UI.Web.WebPingPlayer();
+        try { App.InitialMuted = Browser.LoadMute(); } catch { }
+        PingService.OnMuteChanged = Browser.SaveMute;
+        PingService.RequestAudioInit = FlightRadar.UI.Web.WebPingPlayer.Browser.InitAudio;
 
         await BuildAvaloniaApp()
              .WithInterFont()
@@ -36,5 +42,11 @@ internal partial class Program
 
         [JSImport("openUrl", "MyInterop")]
         public static partial void OpenUrl(string url);
+
+        [JSImport("saveMute", "MyInterop")]
+        public static partial void SaveMute(bool muted);
+
+        [JSImport("loadMute", "MyInterop")]
+        public static partial bool LoadMute();
     }
 }

@@ -13,6 +13,7 @@ namespace FlightRadar.UI.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     private readonly RadarHubClient _hub;
+    public PingService PingService { get; }
 
     [ObservableProperty]
     private ObservableCollection<AircraftData> _aircraft = [];
@@ -50,14 +51,30 @@ public partial class MainViewModel : ViewModelBase
 
     public bool IsHistoryView => !IsLiveView;
 
-    public MainViewModel(RadarHubClient hub)
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(MuteIcon))]
+    private bool _isMuted = true;
+
+    public string MuteIcon => IsMuted ? "\u00d7" : "o";
+
+    public MainViewModel(RadarHubClient hub, PingService pingService)
     {
         _hub = hub;
+        PingService = pingService;
         SidePanel = new SidePanelViewModel { Aircraft = Aircraft };
         History = new HistoryViewModel();
 
         _hub.OnRadarUpdate += state => Dispatcher.UIThread.Post(() => OnRadarUpdate(state));
         _hub.OnConnectionStateChanged += state => Dispatcher.UIThread.Post(() => OnConnectionStateChanged(state));
+    }
+
+    [RelayCommand]
+    private void ToggleMute()
+    {
+        IsMuted = !IsMuted;
+        PingService.IsMuted = IsMuted;
+        PingService.OnMuteChanged?.Invoke(IsMuted);
+        PingService.RequestAudioInit?.Invoke();
     }
 
     private void OnRadarUpdate(RadarState state)
