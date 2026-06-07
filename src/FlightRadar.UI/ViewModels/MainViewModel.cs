@@ -52,10 +52,7 @@ public partial class MainViewModel : ViewModelBase
     public bool IsHistoryView => !IsLiveView;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(MuteIcon))]
     private bool _isMuted = true;
-
-    public string MuteIcon => IsMuted ? "\u00d7" : "o";
 
     public MainViewModel(RadarHubClient hub, PingService pingService)
     {

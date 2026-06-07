@@ -10,7 +10,16 @@
     <Border Grid.Row="0" BorderBrush="#2a5a2a" BorderThickness="1" CornerRadius="4" Margin="8,4,4,0" Background="#0a0a0a" Padding="0">
       <Grid>
         <Border Width="8" Height="8" CornerRadius="4" Background="{Binding StatusBrush}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8 0 0 0"/>
-        <Button Classes="mute-button" Content="{Binding MuteIcon}" Command="{Binding ToggleMuteCommand}" VerticalAlignment="Center" Margin="20 0 0 0" Padding="4,0"/>
+        <Button Classes="mute-button" Command="{Binding ToggleMuteCommand}" VerticalAlignment="Center" Margin="20 0 0 0" Padding="2,0">
+          <Panel Width="16" Height="16">
+            <Path IsVisible="{Binding IsMuted}"
+                  Data="M1,6 L4,6 L8,2 L8,14 L4,10 L1,10 Z M10,5 L15,11 M15,5 L10,11"
+                  Stroke="#60CC60" StrokeThickness="1.2" Fill="#60CC60" Stretch="Uniform"/>
+            <Path IsVisible="{Binding !IsMuted}"
+                  Data="M1,6 L4,6 L8,2 L8,14 L4,10 L1,10 Z M10,6.5 A2.5,2.5 0 0,1 10,9.5 M12.5,4 A5,5 0 0,1 12.5,12"
+                  Stroke="#60CC60" StrokeThickness="1.2" Fill="#60CC60" Stretch="Uniform"/>
+          </Panel>
+        </Button>
         <TextBlock Classes="status" Text="{Binding AircraftCountDisplay}" HorizontalAlignment="Center"/>
         <TextBlock Classes="status-muted" Text="{Binding LastUpdateDisplay}" HorizontalAlignment="Right" Margin="0 0 8 0"/>
       </Grid>
