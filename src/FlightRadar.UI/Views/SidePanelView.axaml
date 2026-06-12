@@ -3,6 +3,7 @@
              xmlns:vm="clr-namespace:FlightRadar.UI.ViewModels"
              xmlns:conv="clr-namespace:FlightRadar.UI.Converters"
              xmlns:views="clr-namespace:FlightRadar.UI.Views"
+             xmlns:res="clr-namespace:FlightRadar.UI.Resources"
              x:Class="FlightRadar.UI.Views.SidePanelView"
              x:DataType="vm:SidePanelViewModel">
   <Grid ColumnDefinitions="48,*" RowDefinitions="Auto,*,Auto">
@@ -23,13 +24,13 @@
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
 
-      <TextBlock Grid.Row="0" Classes="panel-header" Text="Lista statków"/>
+      <TextBlock Grid.Row="0" Classes="panel-header" Text="{x:Static res:SR.Panel_AircraftList}"/>
 
       <Grid Grid.Row="0" ColumnDefinitions="50,*,45,35" Margin="0,20,0,0">
-        <TextBlock Grid.Column="0" Classes="table-header" Text="Czas"/>
-        <TextBlock Grid.Column="1" Classes="table-header" Text="Znak"/>
-        <TextBlock Grid.Column="2" Classes="table-header" Text="Alt"/>
-        <TextBlock Grid.Column="3" Classes="table-header" Text="Kurs"/>
+        <TextBlock Grid.Column="0" Classes="table-header" Text="{x:Static res:SR.TableHeader_Time}"/>
+        <TextBlock Grid.Column="1" Classes="table-header" Text="{x:Static res:SR.TableHeader_Callsign}"/>
+        <TextBlock Grid.Column="2" Classes="table-header" Text="{x:Static res:SR.TableHeader_Alt}"/>
+        <TextBlock Grid.Column="3" Classes="table-header" Text="{x:Static res:SR.TableHeader_Heading}"/>
       </Grid>
 
       <ListBox Grid.Row="1" Name="AircraftList" Classes="transparent"

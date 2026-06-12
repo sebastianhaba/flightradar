@@ -15,7 +15,7 @@ public class RadarHubClient
     public static Action<string>? OpenUrl { get; set; }
 
     public event Action<RadarState>? OnRadarUpdate;
-    public event Action<string>? OnConnectionStateChanged;
+    public event Action<ConnectionState>? OnConnectionStateChanged;
 
     public RadarHubClient()
     {
@@ -49,25 +49,22 @@ public class RadarHubClient
 
         _connection.Reconnecting += _ =>
         {
-            var msg = $"Reconnecting to {HubUrl}...";
-            Log?.Invoke(msg);
-            OnConnectionStateChanged?.Invoke(msg);
+            Log?.Invoke($"Reconnecting to {HubUrl}...");
+            OnConnectionStateChanged?.Invoke(ConnectionState.Reconnecting);
             return Task.CompletedTask;
         };
 
         _connection.Reconnected += _ =>
         {
-            var msg = $"Connected {HubUrl}";
-            Log?.Invoke(msg);
-            OnConnectionStateChanged?.Invoke(msg);
+            Log?.Invoke($"Connected {HubUrl}");
+            OnConnectionStateChanged?.Invoke(ConnectionState.Connected);
             return Task.CompletedTask;
         };
 
         _connection.Closed += async ex =>
         {
-            var msg = ex is null ? "Disconnected" : $"Disconnected: {ex.Message}";
-            Log?.Invoke(msg);
-            OnConnectionStateChanged?.Invoke(msg);
+            Log?.Invoke(ex is null ? "Disconnected" : $"Disconnected: {ex.Message}");
+            OnConnectionStateChanged?.Invoke(ConnectionState.Disconnected);
 
             if (_disposed) return;
 
@@ -86,16 +83,16 @@ public class RadarHubClient
                 if (_disposed) return;
 
                 var old = _connection;
-                Log?.Invoke($"[RadarHub] Attempting reconnect to {HubUrl}");
+                Log?.Invoke($"Reconnecting to {HubUrl}...");
+                OnConnectionStateChanged?.Invoke(ConnectionState.Reconnecting);
                 _connection = BuildConnection();
                 WireConnection();
 
                 await old.DisposeAsync();
                 await _connection.StartAsync();
 
-                var ok = $"Connected {HubUrl}";
-                Log?.Invoke(ok);
-                OnConnectionStateChanged?.Invoke(ok);
+                Log?.Invoke($"Connected {HubUrl}");
+                OnConnectionStateChanged?.Invoke(ConnectionState.Connected);
                 return;
             }
             catch (Exception ex)
@@ -109,19 +106,16 @@ public class RadarHubClient
     {
         try
         {
-            var msg = $"Connecting to {HubUrl}...";
-            Log?.Invoke(msg);
-            OnConnectionStateChanged?.Invoke(msg);
+            Log?.Invoke($"Connecting to {HubUrl}...");
+            OnConnectionStateChanged?.Invoke(ConnectionState.Connecting);
             await _connection.StartAsync();
-            var ok = $"Connected {HubUrl}";
-            Log?.Invoke(ok);
-            OnConnectionStateChanged?.Invoke(ok);
+            Log?.Invoke($"Connected {HubUrl}");
+            OnConnectionStateChanged?.Invoke(ConnectionState.Connected);
         }
         catch (Exception ex)
         {
-            var msg = $"Failed: {ex.Message}";
-            Log?.Invoke(msg);
-            OnConnectionStateChanged?.Invoke(msg);
+            Log?.Invoke($"Failed: {ex.Message}");
+            OnConnectionStateChanged?.Invoke(ConnectionState.Failed);
 
             if (!_disposed)
                 _ = AttemptReconnect();

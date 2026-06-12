@@ -5,6 +5,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FlightRadar.UI.Resources;
 using FlightRadar.UI.Services;
 using FlightRadar.Shared;
 
@@ -25,13 +26,13 @@ public partial class MainViewModel : ViewModelBase
     private int _aircraftCount;
 
     [ObservableProperty]
-    private string _connectionStatus = "Łączenie...";
+    private string _connectionStatus = SR.Status_Connecting;
 
     [ObservableProperty]
     private string _lastUpdate = "";
 
     [ObservableProperty]
-    private string _aircraftCountDisplay = "Statki powietrzne: 0";
+    private string _aircraftCountDisplay = string.Format(SR.Status_AircraftCountFormat, 0);
 
     [ObservableProperty]
     private string _lastUpdateDisplay = "";
@@ -88,9 +89,9 @@ public partial class MainViewModel : ViewModelBase
 
         var count = fresh.Count;
         AircraftCount = count;
-        AircraftCountDisplay = $"Statki powietrzne: {count}";
+        AircraftCountDisplay = string.Format(SR.Status_AircraftCountFormat, count);
         LastUpdate = state.Timestamp.ToLocalTime().ToString("HH:mm:ss");
-        LastUpdateDisplay = $"Ostatnia: {LastUpdate}";
+        LastUpdateDisplay = string.Format(SR.Status_LastUpdateFormat, LastUpdate);
         CenterLat = state.CenterLat;
         CenterLon = state.CenterLon;
 
@@ -100,12 +101,22 @@ public partial class MainViewModel : ViewModelBase
         SidePanel.SelectedAircraft = stillSelected;
     }
 
-    private void OnConnectionStateChanged(string state)
+    private void OnConnectionStateChanged(ConnectionState state)
     {
-        ConnectionStatus = state;
-        StatusBrush = state.StartsWith("Connected") ? new SolidColorBrush(Colors.LimeGreen)
-            : state.StartsWith("Disconnected") || state.StartsWith("Failed") ? new SolidColorBrush(Colors.Red)
-            : new SolidColorBrush(Colors.Orange);
+        ConnectionStatus = state switch
+        {
+            ConnectionState.Connected => SR.Status_Connected,
+            ConnectionState.Disconnected => SR.Status_Disconnected,
+            ConnectionState.Reconnecting => SR.Status_Reconnecting,
+            ConnectionState.Failed => SR.Status_Failed,
+            _ => SR.Status_Connecting
+        };
+        StatusBrush = state switch
+        {
+            ConnectionState.Connected => new SolidColorBrush(Colors.LimeGreen),
+            ConnectionState.Disconnected or ConnectionState.Failed => new SolidColorBrush(Colors.Red),
+            _ => new SolidColorBrush(Colors.Orange)
+        };
     }
 
     [RelayCommand]

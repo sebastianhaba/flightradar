@@ -25,6 +25,10 @@ export function playPing(base64) {
     }
 }
 
+export function getSystemLanguage() {
+    return navigator.language || "en-US";
+}
+
 export function saveMute(muted) {
     try {
         localStorage.setItem("radarMuted", muted ? "1" : "0");

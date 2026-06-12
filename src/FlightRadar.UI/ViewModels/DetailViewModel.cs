@@ -3,6 +3,7 @@ using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FlightRadar.Shared;
+using FlightRadar.UI.Resources;
 using FlightRadar.UI.Services;
 
 namespace FlightRadar.UI.ViewModels;
@@ -34,7 +35,7 @@ public partial class DetailViewModel : ViewModelBase
     public double? DetailSeenPos => SelectedAircraft?.SeenPos;
     public string? DetailFirstSeen => SelectedAircraft?.FirstSeenLocal?.ToString("HH:mm:ss");
     public string? DetailLastSeen => SelectedAircraft?.LastSeenLocal?.ToString("HH:mm:ss");
-    public string? DetailType => SelectedAircraft?.IsHelicopter == true ? "Śmigłowiec" : "Samolot";
+    public string? DetailType => SelectedAircraft?.Category == "A7" ? SR.Detail_Helicopter : SR.Detail_Airplane;
     public string? DetailTypeCode => SelectedAircraft?.TypeCode;
     public string? DetailDescription => SelectedAircraft?.Description;
     public string? DetailRegistration => SelectedAircraft?.Registration;

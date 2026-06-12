@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MainView_Live" xml:space="preserve"><value>Live</value></data>
+  <data name="MainView_History" xml:space="preserve"><value>History</value></data>
+  <data name="History_Load" xml:space="preserve"><value>Load</value></data>
+  <data name="Panel_AircraftList" xml:space="preserve"><value>Aircraft List</value></data>
+  <data name="TableHeader_Time" xml:space="preserve"><value>Time</value></data>
+  <data name="TableHeader_Callsign" xml:space="preserve"><value>Callsign</value></data>
+  <data name="TableHeader_Alt" xml:space="preserve"><value>Alt</value></data>
+  <data name="TableHeader_Heading" xml:space="preserve"><value>Hdg</value></data>
+  <data name="Detail_Placeholder" xml:space="preserve"><value>Select an aircraft in the table to see details</value></data>
+  <data name="DetailLabel_Callsign" xml:space="preserve"><value>Callsign</value></data>
+  <data name="DetailLabel_Icao" xml:space="preserve"><value>ICAO</value></data>
+  <data name="DetailLabel_Registration" xml:space="preserve"><value>Registration</value></data>
+  <data name="DetailLabel_Operator" xml:space="preserve"><value>Operator</value></data>
+  <data name="DetailLabel_Type" xml:space="preserve"><value>Type</value></data>
+  <data name="DetailLabel_Code" xml:space="preserve"><value>Code</value></data>
+  <data name="DetailLabel_Description" xml:space="preserve"><value>Description</value></data>
+  <data name="Detail_Wikipedia" xml:space="preserve"><value>Wikipedia</value></data>
+  <data name="DetailLabel_Latitude" xml:space="preserve"><value>Lat.</value></data>
+  <data name="DetailLabel_Longitude" xml:space="preserve"><value>Lon.</value></data>
+  <data name="DetailLabel_Distance" xml:space="preserve"><value>Distance</value></data>
+  <data name="DetailLabel_Bearing" xml:space="preserve"><value>Bearing</value></data>
+  <data name="DetailLabel_AltGeo" xml:space="preserve"><value>Alt. geo</value></data>
+  <data name="DetailLabel_AltBaro" xml:space="preserve"><value>Alt. baro</value></data>
+  <data name="DetailLabel_Speed" xml:space="preserve"><value>Speed</value></data>
+  <data name="DetailLabel_Heading" xml:space="preserve"><value>Heading</value></data>
+  <data name="DetailLabel_Squawk" xml:space="preserve"><value>Squawk</value></data>
+  <data name="DetailLabel_FirstSeen" xml:space="preserve"><value>First seen</value></data>
+  <data name="DetailLabel_LastSeen" xml:space="preserve"><value>Last seen</value></data>
+  <data name="Detail_Helicopter" xml:space="preserve"><value>Helicopter</value></data>
+  <data name="Detail_Airplane" xml:space="preserve"><value>Airplane</value></data>
+  <data name="Status_Connecting" xml:space="preserve"><value>Connecting...</value></data>
+  <data name="Status_AircraftCountFormat" xml:space="preserve"><value>Aircraft: {0}</value></data>
+  <data name="Status_LastUpdateFormat" xml:space="preserve"><value>Updated: {0}</value></data>
+  <data name="History_Loading" xml:space="preserve"><value>Loading...</value></data>
+  <data name="History_FlightsFoundFormat" xml:space="preserve"><value>Found {0} flights</value></data>
+  <data name="History_ErrorFormat" xml:space="preserve"><value>Error: {0}</value></data>
+  <data name="Status_Connected" xml:space="preserve"><value>Connected</value></data>
+  <data name="Status_Disconnected" xml:space="preserve"><value>Disconnected</value></data>
+  <data name="Status_Reconnecting" xml:space="preserve"><value>Reconnecting...</value></data>
+  <data name="Status_Failed" xml:space="preserve"><value>Failed</value></data>
+  <data name="PL_MainView_Live" xml:space="preserve"><value>Aktualnie</value></data>
+  <data name="PL_MainView_History" xml:space="preserve"><value>Historia</value></data>
+  <data name="PL_History_Load" xml:space="preserve"><value>Wczytaj</value></data>
+  <data name="PL_Panel_AircraftList" xml:space="preserve"><value>Lista statków</value></data>
+  <data name="PL_TableHeader_Time" xml:space="preserve"><value>Czas</value></data>
+  <data name="PL_TableHeader_Callsign" xml:space="preserve"><value>Znak</value></data>
+  <data name="PL_TableHeader_Alt" xml:space="preserve"><value>Alt</value></data>
+  <data name="PL_TableHeader_Heading" xml:space="preserve"><value>Kurs</value></data>
+  <data name="PL_Detail_Placeholder" xml:space="preserve"><value>Kliknij statek w tabeli aby zobaczyć szczegóły</value></data>
+  <data name="PL_DetailLabel_Callsign" xml:space="preserve"><value>Znak</value></data>
+  <data name="PL_DetailLabel_Icao" xml:space="preserve"><value>ICAO</value></data>
+  <data name="PL_DetailLabel_Registration" xml:space="preserve"><value>Rejestracja</value></data>
+  <data name="PL_DetailLabel_Operator" xml:space="preserve"><value>Operator</value></data>
+  <data name="PL_DetailLabel_Type" xml:space="preserve"><value>Typ</value></data>
+  <data name="PL_DetailLabel_Code" xml:space="preserve"><value>Kod</value></data>
+  <data name="PL_DetailLabel_Description" xml:space="preserve"><value>Opis</value></data>
+  <data name="PL_Detail_Wikipedia" xml:space="preserve"><value>Wikipedia</value></data>
+  <data name="PL_DetailLabel_Latitude" xml:space="preserve"><value>Szer.</value></data>
+  <data name="PL_DetailLabel_Longitude" xml:space="preserve"><value>Dł.</value></data>
+  <data name="PL_DetailLabel_Distance" xml:space="preserve"><value>Odległość</value></data>
+  <data name="PL_DetailLabel_Bearing" xml:space="preserve"><value>Kierunek</value></data>
+  <data name="PL_DetailLabel_AltGeo" xml:space="preserve"><value>Wys. geom.</value></data>
+  <data name="PL_DetailLabel_AltBaro" xml:space="preserve"><value>Wys. baro.</value></data>
+  <data name="PL_DetailLabel_Speed" xml:space="preserve"><value>Prędkość</value></data>
+  <data name="PL_DetailLabel_Heading" xml:space="preserve"><value>Kurs</value></data>
+  <data name="PL_DetailLabel_Squawk" xml:space="preserve"><value>Squawk</value></data>
+  <data name="PL_DetailLabel_FirstSeen" xml:space="preserve"><value>Pierwszy raz</value></data>
+  <data name="PL_DetailLabel_LastSeen" xml:space="preserve"><value>Ostatni raz</value></data>
+  <data name="PL_Detail_Helicopter" xml:space="preserve"><value>Śmigłowiec</value></data>
+  <data name="PL_Detail_Airplane" xml:space="preserve"><value>Samolot</value></data>
+  <data name="PL_Status_Connecting" xml:space="preserve"><value>Łączenie...</value></data>
+  <data name="PL_Status_AircraftCountFormat" xml:space="preserve"><value>Statki powietrzne: {0}</value></data>
+  <data name="PL_Status_LastUpdateFormat" xml:space="preserve"><value>Ostatnia: {0}</value></data>
+  <data name="PL_History_Loading" xml:space="preserve"><value>Ładowanie...</value></data>
+  <data name="PL_History_FlightsFoundFormat" xml:space="preserve"><value>Znaleziono {0} lotów</value></data>
+  <data name="PL_History_ErrorFormat" xml:space="preserve"><value>Błąd: {0}</value></data>
+  <data name="PL_Status_Connected" xml:space="preserve"><value>Połączono</value></data>
+  <data name="PL_Status_Disconnected" xml:space="preserve"><value>Rozłączono</value></data>
+  <data name="PL_Status_Reconnecting" xml:space="preserve"><value>Ponowne łączenie...</value></data>
+  <data name="PL_Status_Failed" xml:space="preserve"><value>Błąd połączenia</value></data>
+</root>

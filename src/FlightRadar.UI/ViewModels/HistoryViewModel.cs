@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FlightRadar.Shared;
 using FlightRadar.UI.Configuration;
+using FlightRadar.UI.Resources;
 
 namespace FlightRadar.UI.ViewModels;
 
@@ -39,7 +40,7 @@ public partial class HistoryViewModel : ViewModelBase
     {
         if (SelectedDate is null) return;
         var date = SelectedDate.Value.DateTime.Date;
-        StatusText = "Ładowanie...";
+        StatusText = SR.History_Loading;
 
         try
         {
@@ -60,11 +61,11 @@ public partial class HistoryViewModel : ViewModelBase
                 .ToList() ?? [];
 
             HourBlocks = new ObservableCollection<HourBlock>(grouped);
-            StatusText = $"Znaleziono {flights?.Count ?? 0} lotów";
+            StatusText = string.Format(SR.History_FlightsFoundFormat, flights?.Count ?? 0);
         }
         catch (Exception ex)
         {
-            StatusText = $"Błąd: {ex.Message}";
+            StatusText = string.Format(SR.History_ErrorFormat, ex.Message);
         }
     }
 

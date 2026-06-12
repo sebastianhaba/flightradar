@@ -1,60 +1,61 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:FlightRadar.UI.ViewModels"
+             xmlns:res="clr-namespace:FlightRadar.UI.Resources"
              x:Class="FlightRadar.UI.Views.DetailView"
              x:DataType="vm:DetailViewModel">
   <Grid>
     <TextBlock Classes="detail-placeholder" IsVisible="{Binding !HasSelection}"
-               Text="Kliknij statek w tabeli aby zobaczyć szczegóły"/>
+               Text="{x:Static res:SR.Detail_Placeholder}"/>
 
     <ScrollViewer IsVisible="{Binding HasSelection}" VerticalScrollBarVisibility="Auto">
       <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
             ColumnDefinitions="80,*" Margin="0,4,0,0">
-        <TextBlock Grid.Row="0"  Grid.Column="0" Classes="detail-label" Text="Znak"/>
+        <TextBlock Grid.Row="0"  Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Callsign}"/>
         <TextBlock Grid.Row="0"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailCallsign}"/>
-        <TextBlock Grid.Row="1"  Grid.Column="0" Classes="detail-label" Text="ICAO"/>
+        <TextBlock Grid.Row="1"  Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Icao}"/>
         <TextBlock Grid.Row="1"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailIcaoHex}"/>
-        <TextBlock Grid.Row="2"  Grid.Column="0" Classes="detail-label" Text="Rejestracja"/>
+        <TextBlock Grid.Row="2"  Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Registration}"/>
         <TextBlock Grid.Row="2"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailRegistration}"/>
-        <TextBlock Grid.Row="3"  Grid.Column="0" Classes="detail-label" Text="Operator"/>
+        <TextBlock Grid.Row="3"  Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Operator}"/>
         <TextBlock Grid.Row="3"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailOwnOp}"/>
-        <TextBlock Grid.Row="4"  Grid.Column="0" Classes="detail-label" Text="Typ"/>
+        <TextBlock Grid.Row="4"  Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Type}"/>
         <TextBlock Grid.Row="4"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailType}"/>
-        <TextBlock Grid.Row="5"  Grid.Column="0" Classes="detail-label" Text="Kod"/>
+        <TextBlock Grid.Row="5"  Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Code}"/>
         <TextBlock Grid.Row="5"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailTypeCode}"/>
-        <TextBlock Grid.Row="6"  Grid.Column="0" Classes="detail-label" Text="Opis"/>
+        <TextBlock Grid.Row="6"  Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Description}"/>
         <StackPanel Grid.Row="6" Grid.Column="1" Margin="4,0,0,0">
           <TextBlock Classes="detail-value" Margin="0" Text="{Binding DetailDescription}"/>
-          <Button Content="Wikipedia" Background="Transparent" BorderThickness="0"
+          <Button Content="{x:Static res:SR.Detail_Wikipedia}" Background="Transparent" BorderThickness="0"
                   Foreground="#40CC80" FontSize="10" Padding="0" Margin="0,1,0,0"
                   HorizontalAlignment="Left"
                   Command="{Binding OpenWikiCommand}"
                   IsVisible="{Binding HasWiki}"/>
         </StackPanel>
-        <TextBlock Grid.Row="7"  Grid.Column="0" Classes="detail-label" Text="Szer."/>
+        <TextBlock Grid.Row="7"  Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Latitude}"/>
         <TextBlock Grid.Row="7"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailLatitude, StringFormat={}{0:F4}}"/>
-        <TextBlock Grid.Row="8"  Grid.Column="0" Classes="detail-label" Text="Dł."/>
+        <TextBlock Grid.Row="8"  Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Longitude}"/>
         <TextBlock Grid.Row="8"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailLongitude, StringFormat={}{0:F4}}"/>
-        <TextBlock Grid.Row="9"  Grid.Column="0" Classes="detail-label" Text="Odległość"/>
+        <TextBlock Grid.Row="9"  Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Distance}"/>
         <TextBlock Grid.Row="9"  Grid.Column="1" Classes="detail-value" Text="{Binding DetailDistanceKm, StringFormat={}{0:F1} km}"/>
-        <TextBlock Grid.Row="10" Grid.Column="0" Classes="detail-label" Text="Kierunek"/>
+        <TextBlock Grid.Row="10" Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Bearing}"/>
         <TextBlock Grid.Row="10" Grid.Column="1" Classes="detail-value" Text="{Binding DetailBearing, StringFormat={}{0:F0}°}"/>
-        <TextBlock Grid.Row="11" Grid.Column="0" Classes="detail-label" Text="Wys. geom."/>
+        <TextBlock Grid.Row="11" Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_AltGeo}"/>
         <TextBlock Grid.Row="11" Grid.Column="1" Classes="detail-value" Text="{Binding DetailAltitude, StringFormat={}{0} ft}"/>
-        <TextBlock Grid.Row="12" Grid.Column="0" Classes="detail-label" Text="Wys. baro."/>
+        <TextBlock Grid.Row="12" Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_AltBaro}"/>
         <TextBlock Grid.Row="12" Grid.Column="1" Classes="detail-value" Text="{Binding DetailAltBaro, StringFormat={}{0} ft}"/>
-        <TextBlock Grid.Row="13" Grid.Column="0" Classes="detail-label" Text="Prędkość"/>
+        <TextBlock Grid.Row="13" Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Speed}"/>
         <StackPanel Grid.Row="13" Grid.Column="1" Margin="4,0,0,0">
-          <TextBlock Classes="detail-value" Margin="0" Text="{Binding DetailGroundSpeed, StringFormat={}{0:F0} węz}"/>
+          <TextBlock Classes="detail-value" Margin="0" Text="{Binding DetailGroundSpeed, StringFormat={}{0:F0} kt}"/>
           <TextBlock Classes="detail-value" Margin="0" Text="{Binding DetailGroundSpeedKmh, StringFormat={}{0:F0} km/h}" Foreground="#3a6a3a"/>
         </StackPanel>
-        <TextBlock Grid.Row="14" Grid.Column="0" Classes="detail-label" Text="Kurs"/>
+        <TextBlock Grid.Row="14" Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Heading}"/>
         <TextBlock Grid.Row="14" Grid.Column="1" Classes="detail-value" Text="{Binding DetailHeading, StringFormat={}{0:F0}°}"/>
-        <TextBlock Grid.Row="15" Grid.Column="0" Classes="detail-label" Text="Squawk"/>
+        <TextBlock Grid.Row="15" Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_Squawk}"/>
         <TextBlock Grid.Row="15" Grid.Column="1" Classes="detail-value" Text="{Binding DetailSquawk}"/>
-        <TextBlock Grid.Row="16" Grid.Column="0" Classes="detail-label" Text="Pierwszy raz"/>
+        <TextBlock Grid.Row="16" Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_FirstSeen}"/>
         <TextBlock Grid.Row="16" Grid.Column="1" Classes="detail-value" Text="{Binding DetailFirstSeen}"/>
-        <TextBlock Grid.Row="17" Grid.Column="0" Classes="detail-label" Text="Ostatni raz"/>
+        <TextBlock Grid.Row="17" Grid.Column="0" Classes="detail-label" Text="{x:Static res:SR.DetailLabel_LastSeen}"/>
         <TextBlock Grid.Row="17" Grid.Column="1" Classes="detail-value" Text="{Binding DetailLastSeen}"/>
       </Grid>
     </ScrollViewer>

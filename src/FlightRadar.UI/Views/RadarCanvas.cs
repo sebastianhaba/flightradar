@@ -136,11 +136,11 @@ public class RadarCanvas : Control
         InvalidateVisual();
     }
 
-    private static readonly FormattedText LabelN = new("N", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
-    private static readonly FormattedText LabelS = new("S", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
-    private static readonly FormattedText LabelW = new("W", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
-    private static readonly FormattedText LabelE = new("E", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
-    private static readonly FormattedText Label25Km = new("25 km", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 11, RangeTextBrush);
+    private static readonly FormattedText LabelN = new("N", CultureInfo.InvariantCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
+    private static readonly FormattedText LabelS = new("S", CultureInfo.InvariantCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
+    private static readonly FormattedText LabelW = new("W", CultureInfo.InvariantCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
+    private static readonly FormattedText LabelE = new("E", CultureInfo.InvariantCulture, FlowDirection.LeftToRight, Typeface.Default, 13, WhiteBrush);
+    private static readonly FormattedText Label25Km = new("25 km", CultureInfo.InvariantCulture, FlowDirection.LeftToRight, Typeface.Default, 11, RangeTextBrush);
 
     private static readonly FormattedText[] DegreeLabels = InitDegreeLabels();
 
@@ -150,7 +150,7 @@ public class RadarCanvas : Control
         for (int i = 0; i < labels.Length; i++)
         {
             var deg = i * 45;
-            labels[i] = new FormattedText($"{deg}°", CultureInfo.CurrentCulture,
+            labels[i] = new FormattedText($"{deg}°", CultureInfo.InvariantCulture,
                 FlowDirection.LeftToRight, Typeface.Default, 10, DegBrush);
         }
         return labels;
@@ -278,7 +278,7 @@ public class RadarCanvas : Control
 
             using (ctx.PushOpacity(opacity))
             {
-                DrawAircraftIcon(ctx, x, y, ac.Heading, ac.IsHelicopter);
+                DrawAircraftIcon(ctx, x, y, ac.Heading, ac.Category == "A7");
                 DrawAircraftLabel(ctx, x, y, ac);
             }
         }
@@ -321,9 +321,9 @@ public class RadarCanvas : Control
         var callsign = !string.IsNullOrWhiteSpace(ac.Callsign) ? ac.Callsign
             : ac.IcaoHex.Length >= 6 ? ac.IcaoHex[..6] : ac.IcaoHex;
 
-        var cs = new FormattedText(callsign, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+        var cs = new FormattedText(callsign, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
             Typeface.Default, 10, CallsignBrush);
-        var alt = new FormattedText($"{ac.Altitude}' | {ac.Heading:F0}°", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+        var alt = new FormattedText($"{ac.Altitude}' | {ac.Heading:F0}°", CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
             Typeface.Default, 9, AltBrush);
 
         ctx.DrawText(cs, new Point(x - cs.Width / 2, y + 10));
